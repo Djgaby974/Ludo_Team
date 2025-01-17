@@ -6611,42 +6611,49 @@
     </service>
     <service id="security.access_map" class="Symfony\Component\Security\Http\AccessMap">
       <call method="add">
-        <argument type="service" id=".security.request_matcher.VEiC_Zm"/>
+        <argument type="service" id=".security.request_matcher.BhpRUZK"/>
+        <argument type="collection">
+          <argument>PUBLIC_ACCESS</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.7hffHUr"/>
+        <argument type="collection">
+          <argument>PUBLIC_ACCESS</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.SzU79yb"/>
+        <argument type="collection">
+          <argument>PUBLIC_ACCESS</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.1O9BO3s"/>
         <argument type="collection">
           <argument>ROLE_USER</argument>
         </argument>
         <argument>null</argument>
       </call>
       <call method="add">
-        <argument type="service" id=".security.request_matcher.BCfYuYZ"/>
+        <argument type="service" id=".security.request_matcher.rOqwEyi"/>
+        <argument type="collection">
+          <argument>PUBLIC_ACCESS</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.QKrK5lo"/>
         <argument type="collection">
           <argument>ROLE_USER</argument>
         </argument>
         <argument>null</argument>
       </call>
       <call method="add">
-        <argument type="service" id=".security.request_matcher.HF.df0Z"/>
-        <argument type="collection">
-          <argument>ROLE_USER</argument>
-        </argument>
-        <argument>null</argument>
-      </call>
-      <call method="add">
-        <argument type="service" id=".security.request_matcher.BL96bij"/>
-        <argument type="collection">
-          <argument>ROLE_USER</argument>
-        </argument>
-        <argument>null</argument>
-      </call>
-      <call method="add">
-        <argument type="service" id=".security.request_matcher.hkHxUlq"/>
-        <argument type="collection">
-          <argument>ROLE_USER</argument>
-        </argument>
-        <argument>null</argument>
-      </call>
-      <call method="add">
-        <argument type="service" id=".security.request_matcher.qXqRdzk"/>
+        <argument type="service" id=".security.request_matcher.CUDSgej"/>
         <argument type="collection">
           <argument>ROLE_USER</argument>
         </argument>
@@ -7188,52 +7195,60 @@
         <argument key="security.firewall.map.context.main" type="service_closure" id="security.firewall.map.context.main"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.7UA.aKU" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/event/new</argument>
+    <service id=".security.request_matcher.T8BdVIN" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/login</argument>
     </service>
-    <service id=".security.request_matcher.VEiC_Zm" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.BhpRUZK" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher.7UA.aKU"/>
+        <argument type="service" id=".security.request_matcher.T8BdVIN"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.siJtbCL" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/event/\d+/edit</argument>
+    <service id=".security.request_matcher.LORg6t3" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/register</argument>
     </service>
-    <service id=".security.request_matcher.BCfYuYZ" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.7hffHUr" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher.siJtbCL"/>
+        <argument type="service" id=".security.request_matcher.LORg6t3"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.c2vE5cX" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/event/\d+/delete</argument>
+    <service id=".security.request_matcher.tjPnzJ." class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/event/(\d+)$</argument>
     </service>
-    <service id=".security.request_matcher.HF.df0Z" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.SzU79yb" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher.c2vE5cX"/>
+        <argument type="service" id=".security.request_matcher.tjPnzJ."/>
       </argument>
     </service>
-    <service id=".security.request_matcher.h5n7S80" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/game/new</argument>
+    <service id=".security.request_matcher.i1WV1Fk" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/event</argument>
     </service>
-    <service id=".security.request_matcher.BL96bij" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.1O9BO3s" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher.h5n7S80"/>
+        <argument type="service" id=".security.request_matcher.i1WV1Fk"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.6.Sv1HZ" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/game/\d+/edit</argument>
+    <service id=".security.request_matcher.0wvV6wb" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/game/(\d+)$</argument>
     </service>
-    <service id=".security.request_matcher.hkHxUlq" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.rOqwEyi" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher.6.Sv1HZ"/>
+        <argument type="service" id=".security.request_matcher.0wvV6wb"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.n1.Sy.A" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
-      <argument>^/game/\d+/delete</argument>
+    <service id=".security.request_matcher.OEZ.MX9" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/game</argument>
     </service>
-    <service id=".security.request_matcher.qXqRdzk" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+    <service id=".security.request_matcher.QKrK5lo" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
       <argument type="collection">
-        <argument type="service" id=".security.request_matcher.n1.Sy.A"/>
+        <argument type="service" id=".security.request_matcher.OEZ.MX9"/>
+      </argument>
+    </service>
+    <service id=".security.request_matcher.SbN0Tkg" class="Symfony\Component\HttpFoundation\RequestMatcher\PathRequestMatcher">
+      <argument>^/</argument>
+    </service>
+    <service id=".security.request_matcher.CUDSgej" class="Symfony\Component\HttpFoundation\ChainRequestMatcher">
+      <argument type="collection">
+        <argument type="service" id=".security.request_matcher.SbN0Tkg"/>
       </argument>
     </service>
     <service id="security.command.user_password_hash" class="Symfony\Component\PasswordHasher\Command\UserPasswordHashCommand">

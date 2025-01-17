@@ -13,6 +13,12 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(EventRepository $eventRepository, GameRepository $gameRepository): Response
     {
+        // Si l'utilisateur n'est pas connecté, ajouter un message flash
+        if (!$this->getUser()) {
+            $this->addFlash('info', 'Connectez-vous pour accéder à toutes les fonctionnalités de LudoTeam !');
+            return $this->redirectToRoute('app_login');
+        }
+
         // Récupérer les événements à venir
         $upcomingEvents = $eventRepository->findUpcomingEvents(3);
         

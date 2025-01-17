@@ -23,12 +23,13 @@ security:
                 path: app_logout
     
     access_control:
-        - { path: ^/event/new, roles: ROLE_USER }
-        - { path: ^/event/\d+/edit, roles: ROLE_USER }
-        - { path: ^/event/\d+/delete, roles: ROLE_USER }
-        - { path: ^/game/new, roles: ROLE_USER }
-        - { path: ^/game/\d+/edit, roles: ROLE_USER }
-        - { path: ^/game/\d+/delete, roles: ROLE_USER }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/event/(\d+)$, roles: PUBLIC_ACCESS }  # Voir un événement spécifique
+        - { path: ^/event, roles: ROLE_USER }  # Toutes les autres routes d'événements
+        - { path: ^/game/(\d+)$, roles: PUBLIC_ACCESS }  # Voir un jeu spécifique
+        - { path: ^/game, roles: ROLE_USER }  # Toutes les autres routes de jeux
+        - { path: ^/, roles: ROLE_USER }  # Toutes les autres routes nécessitent une connexion
 
 when@test:
     security:
