@@ -52,6 +52,14 @@ class EventController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/details', name: 'app_event_details', methods: ['GET'])]
+    public function details(Event $event): Response
+    {
+        return $this->render('event/details.html.twig', [
+            'event' => $event,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'app_event_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
@@ -89,5 +97,33 @@ class EventController extends AbstractController
         }
 
         return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/join', name: 'app_event_join', methods: ['GET'])]
+    public function join(Event $event, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            $this->addFlash('error', 'Vous devez être connecté pour rejoindre un événement.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        if ($event->getParticipants()->contains($user)) {
+            $this->addFlash('warning', 'Vous participez déjà à cet événement.');
+            return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
+        }
+
+        if ($event->getParticipants()->count() >= $event->getMaxParticipants()) {
+            $this->addFlash('error', 'Cet événement est complet.');
+            return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
+        }
+
+        $event->addParticipant($user);
+        $entityManager->persist($event);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Vous avez rejoint l\'événement avec succès !');
+        return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
     }
 }

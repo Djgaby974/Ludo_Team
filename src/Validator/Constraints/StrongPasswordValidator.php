@@ -14,16 +14,17 @@ class StrongPasswordValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, StrongPassword::class);
         }
 
-        // Ne pas valider les valeurs nulles ou vides
-        if (null === $value || '' === $value) {
+        // Ne pas valider les valeurs nulles
+        if (null === $value) {
             return;
         }
 
-        // Vérifier la longueur minimale
-        if (strlen($value) < $constraint->min) {
+        // Valeur vide ou trop courte
+        if ('' === $value || strlen($value) < $constraint->min) {
             $this->context->buildViolation($constraint->messageLength)
                 ->setParameter('{{ min }}', $constraint->min)
                 ->addViolation();
+            return;
         }
 
         // Vérifier la présence de majuscules

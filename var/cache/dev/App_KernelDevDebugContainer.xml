@@ -390,6 +390,13 @@
         <argument type="service" id=".service_locator.ZyP9f7K.App\Controller\HomeController"/>
       </call>
     </service>
+    <service id="App\Controller\ProfileController" class="App\Controller\ProfileController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.ZyP9f7K.App\Controller\ProfileController"/>
+      </call>
+    </service>
     <service id="App\Controller\SecurityController" class="App\Controller\SecurityController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -425,6 +432,10 @@
     <service id="App\Security\LoginFormAuthenticator" class="App\Security\LoginFormAuthenticator" autowire="true" autoconfigure="true">
       <argument type="service" id="router.default"/>
     </service>
+    <service id="App\Validator\Constraints\StrongPassword" class="App\Validator\Constraints\StrongPassword" autowire="true" autoconfigure="true"/>
+    <service id="App\Validator\Constraints\StrongPasswordValidator" class="App\Validator\Constraints\StrongPasswordValidator" autowire="true" autoconfigure="true">
+      <tag name="validator.constraint_validator"/>
+    </service>
     <service id="argument_metadata_factory" class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory"/>
     <service id="argument_resolver.backed_enum_resolver" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver">
       <tag priority="100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver">controller.argument_value_resolver</tag>
@@ -453,7 +464,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.t7CyRWg"/>
+      <argument type="service" id=".service_locator.EyPODOZ"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -2548,6 +2559,7 @@
     <service id="translation.extractor.visitor.constraint" class="Symfony\Component\Translation\Extractor\Visitor\ConstraintVisitor">
       <tag name="translation.extractor.visitor"/>
       <argument type="collection">
+        <argument>StrongPassword</argument>
         <argument>All</argument>
         <argument>AtLeastOneOf</argument>
         <argument>Bic</argument>
@@ -3401,7 +3413,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.t7CyRWg"/>
+      <argument type="service" id=".service_locator.EyPODOZ"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -4105,7 +4117,7 @@
       <argument type="service" id="cache.validator"/>
     </service>
     <service id="validator.validator_factory" class="Symfony\Component\Validator\ContainerConstraintValidatorFactory">
-      <argument type="service" id=".service_locator.ea.H0ae"/>
+      <argument type="service" id=".service_locator.SgL2row"/>
     </service>
     <service id="Symfony\Component\Validator\Constraints\AllValidator" class="Symfony\Component\Validator\Constraints\AllValidator" abstract="true">
       <tag name="container.excluded"/>
@@ -7463,6 +7475,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ProfileController" class="App\Controller\ProfileController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ProfileController" class="App\Controller\ProfileController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\ProfileController" class="App\Controller\ProfileController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -7480,6 +7495,8 @@
     <service id=".abstract.instanceof.App\Repository\GameRepository" class="App\Repository\GameRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\UserRepository" class="App\Repository\UserRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Validator\ConstraintValidatorInterface.0.App\Validator\Constraints\StrongPasswordValidator" class="App\Validator\Constraints\StrongPasswordValidator" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Validator\Constraints\StrongPasswordValidator" class="App\Validator\Constraints\StrongPasswordValidator" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.pRu6x_4" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8086,6 +8103,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.uOCv2n7" method="withContext"/>
     </service>
+    <service id=".service_locator.uOCv2n7.App\Controller\EventController::details()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\EventController::details()"/>
+      <argument>App\Controller\EventController::details()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.uOCv2n7" method="withContext"/>
+    </service>
     <service id=".service_locator.H64Kpxq" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8102,6 +8125,12 @@
     <service id=".service_locator.H64Kpxq.App\Controller\EventController::delete()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\EventController::delete()"/>
       <argument>App\Controller\EventController::delete()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.H64Kpxq" method="withContext"/>
+    </service>
+    <service id=".service_locator.H64Kpxq.App\Controller\EventController::join()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\EventController::join()"/>
+      <argument>App\Controller\EventController::join()</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.H64Kpxq" method="withContext"/>
     </service>
@@ -8161,6 +8190,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.kkA9ATv" method="withContext"/>
     </service>
+    <service id=".service_locator.wxPd78M.App\Controller\ProfileController::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ProfileController::index()"/>
+      <argument>App\Controller\ProfileController::index()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.wxPd78M" method="withContext"/>
+    </service>
     <service id=".service_locator.3QECKYg" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8186,7 +8221,7 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.5SuUxla" method="withContext"/>
     </service>
-    <service id=".service_locator.t7CyRWg" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.EyPODOZ" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
@@ -8200,14 +8235,17 @@
         <argument key="App\Controller\EventController::index" type="service_closure" id=".service_locator.wxPd78M.App\Controller\EventController::index()"/>
         <argument key="App\Controller\EventController::new" type="service_closure" id=".service_locator.egipcEH.App\Controller\EventController::new()"/>
         <argument key="App\Controller\EventController::show" type="service_closure" id=".service_locator.uOCv2n7.App\Controller\EventController::show()"/>
+        <argument key="App\Controller\EventController::details" type="service_closure" id=".service_locator.uOCv2n7.App\Controller\EventController::details()"/>
         <argument key="App\Controller\EventController::edit" type="service_closure" id=".service_locator.H64Kpxq.App\Controller\EventController::edit()"/>
         <argument key="App\Controller\EventController::delete" type="service_closure" id=".service_locator.H64Kpxq.App\Controller\EventController::delete()"/>
+        <argument key="App\Controller\EventController::join" type="service_closure" id=".service_locator.H64Kpxq.App\Controller\EventController::join()"/>
         <argument key="App\Controller\GameController::index" type="service_closure" id=".service_locator.LvrIxHl.App\Controller\GameController::index()"/>
         <argument key="App\Controller\GameController::new" type="service_closure" id=".service_locator.egipcEH.App\Controller\GameController::new()"/>
         <argument key="App\Controller\GameController::show" type="service_closure" id=".service_locator.NPg3n2e.App\Controller\GameController::show()"/>
         <argument key="App\Controller\GameController::edit" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::edit()"/>
         <argument key="App\Controller\GameController::delete" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::delete()"/>
         <argument key="App\Controller\HomeController::index" type="service_closure" id=".service_locator.kkA9ATv.App\Controller\HomeController::index()"/>
+        <argument key="App\Controller\ProfileController::index" type="service_closure" id=".service_locator.wxPd78M.App\Controller\ProfileController::index()"/>
         <argument key="App\Controller\SecurityController::login" type="service_closure" id=".service_locator.3QECKYg.App\Controller\SecurityController::login()"/>
         <argument key="App\Controller\SecurityController::register" type="service_closure" id=".service_locator.5SuUxla.App\Controller\SecurityController::register()"/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
@@ -8219,21 +8257,25 @@
         <argument key="App\Controller\EventController:index" type="service_closure" id=".service_locator.wxPd78M.App\Controller\EventController::index()"/>
         <argument key="App\Controller\EventController:new" type="service_closure" id=".service_locator.egipcEH.App\Controller\EventController::new()"/>
         <argument key="App\Controller\EventController:show" type="service_closure" id=".service_locator.uOCv2n7.App\Controller\EventController::show()"/>
+        <argument key="App\Controller\EventController:details" type="service_closure" id=".service_locator.uOCv2n7.App\Controller\EventController::details()"/>
         <argument key="App\Controller\EventController:edit" type="service_closure" id=".service_locator.H64Kpxq.App\Controller\EventController::edit()"/>
         <argument key="App\Controller\EventController:delete" type="service_closure" id=".service_locator.H64Kpxq.App\Controller\EventController::delete()"/>
+        <argument key="App\Controller\EventController:join" type="service_closure" id=".service_locator.H64Kpxq.App\Controller\EventController::join()"/>
         <argument key="App\Controller\GameController:index" type="service_closure" id=".service_locator.LvrIxHl.App\Controller\GameController::index()"/>
         <argument key="App\Controller\GameController:new" type="service_closure" id=".service_locator.egipcEH.App\Controller\GameController::new()"/>
         <argument key="App\Controller\GameController:show" type="service_closure" id=".service_locator.NPg3n2e.App\Controller\GameController::show()"/>
         <argument key="App\Controller\GameController:edit" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::edit()"/>
         <argument key="App\Controller\GameController:delete" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::delete()"/>
         <argument key="App\Controller\HomeController:index" type="service_closure" id=".service_locator.kkA9ATv.App\Controller\HomeController::index()"/>
+        <argument key="App\Controller\ProfileController:index" type="service_closure" id=".service_locator.wxPd78M.App\Controller\ProfileController::index()"/>
         <argument key="App\Controller\SecurityController:login" type="service_closure" id=".service_locator.3QECKYg.App\Controller\SecurityController::login()"/>
         <argument key="App\Controller\SecurityController:register" type="service_closure" id=".service_locator.5SuUxla.App\Controller\SecurityController::register()"/>
       </argument>
     </service>
-    <service id=".service_locator.ea.H0ae" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.SgL2row" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Validator\Constraints\StrongPasswordValidator" type="service_closure" id="App\Validator\Constraints\StrongPasswordValidator"/>
         <argument key="validator.expression" type="service_closure" id="validator.expression"/>
         <argument key="Symfony\Component\Validator\Constraints\ExpressionValidator" type="service_closure" id="validator.expression"/>
         <argument key="Symfony\Component\Validator\Constraints\EmailValidator" type="service_closure" id="validator.email"/>
@@ -8828,6 +8870,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.ZyP9f7K" method="withContext"/>
     </service>
+    <service id=".service_locator.ZyP9f7K.App\Controller\ProfileController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ProfileController"/>
+      <argument>App\Controller\ProfileController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.ZyP9f7K" method="withContext"/>
+    </service>
     <service id=".service_locator.ZyP9f7K.App\Controller\SecurityController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\SecurityController"/>
       <argument>App\Controller\SecurityController</argument>
@@ -9023,6 +9071,7 @@
           <argument>App\Controller\EventController</argument>
           <argument>App\Controller\GameController</argument>
           <argument>App\Controller\HomeController</argument>
+          <argument>App\Controller\ProfileController</argument>
           <argument>App\Controller\SecurityController</argument>
           <argument>Doctrine\Bundle\DoctrineBundle\Controller\ProfilerController</argument>
         </argument>
@@ -10433,7 +10482,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.pRu6x_4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.t7CyRWg"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.EyPODOZ"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -10456,7 +10505,7 @@
     <service id="Psr\Log\LoggerInterface $deprecationLogger" alias="monolog.logger.deprecation"/>
     <service id=".service_locator.xqODiDp" alias="messenger.receiver_locator"/>
     <service id=".service_locator.kVuTj7R" alias="messenger.retry_strategy_locator"/>
-    <service id=".service_locator.hUPzsWO" alias=".service_locator.ea.H0ae"/>
+    <service id=".service_locator.k1nEgpN" alias=".service_locator.SgL2row"/>
     <service id="validator" alias="debug.validator"/>
     <service id="http_client" alias=".debug.http_client"/>
     <service id=".debug.http_client.inner" alias="http_client.uri_template"/>

@@ -18,8 +18,8 @@ class StrongPassword extends Constraint
 
     public $min = 8;
 
-    public function getTargets()
+    public function getTargets(): array
     {
-        return self::PROPERTY_CONSTRAINT;
+        return [self::PROPERTY_CONSTRAINT];
     }
 }

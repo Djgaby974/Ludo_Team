@@ -52,19 +52,26 @@ class Event
     #[Assert\LessThan('+1 year', message: "La date de l'événement ne peut pas être plus d'un an dans le futur")]
     private ?\DateTimeInterface $dateEvent = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['event_details'])]
+    #[ORM\Column(length: 500, nullable: true)]
     #[Assert\Length(
         min: 10, 
-        max: 255, 
-        minMessage: "La description doit contenir au moins {{ limit }} caractères", 
-        maxMessage: "La description ne peut pas dépasser {{ limit }} caractères"
+        max: 500, 
+        minMessage: "La description de l'événement doit contenir au moins {{ limit }} caractères", 
+        maxMessage: "La description de l'événement ne peut pas dépasser {{ limit }} caractères"
     )]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-ZÀ-ÿ0-9\s.,!?()-]+$/',
-        message: "La description contient des caractères non autorisés"
-    )]
+    #[Groups(['event_details'])]
     private ?string $description = null;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['event_details'])]
+    #[Assert\NotBlank(message: "Le lieu de l'événement est obligatoire")]
+    #[Assert\Length(
+        min: 3, 
+        max: 100, 
+        minMessage: "Le lieu de l'événement doit contenir au moins {{ limit }} caractères", 
+        maxMessage: "Le lieu de l'événement ne peut pas dépasser {{ limit }} caractères"
+    )]
+    private ?string $location = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Groups(['event_details'])]
@@ -75,6 +82,17 @@ class Event
         maxMessage: "Le lieu ne peut pas dépasser {{ limit }} caractères"
     )]
     private ?string $lieu = null;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['event_details'])]
+    #[Assert\NotBlank(message: "Le nom de l'événement est obligatoire")]
+    #[Assert\Length(
+        min: 3, 
+        max: 100, 
+        minMessage: "Le nom de l'événement doit contenir au moins {{ limit }} caractères", 
+        maxMessage: "Le nom de l'événement ne peut pas dépasser {{ limit }} caractères"
+    )]
+    private ?string $name = null;
 
     public function __construct()
     {
@@ -171,6 +189,18 @@ class Event
         return $this;
     }
 
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(string $location): static
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
     public function getLieu(): ?string
     {
         return $this->lieu;
@@ -179,6 +209,18 @@ class Event
     public function setLieu(?string $lieu): static
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
