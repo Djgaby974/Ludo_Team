@@ -39,7 +39,7 @@ class GameType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Game::class,
+            'data_class' => null,
         ]);
     }
 }

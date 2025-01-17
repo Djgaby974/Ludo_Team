@@ -72,4 +72,18 @@ class EventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findNearbyEvents(int $days = 7): array
+    {
+        $now = new \DateTime();
+        $nearFuture = (clone $now)->modify("+{$days} days");
+
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.dateEvent BETWEEN :now AND :nearFuture')
+            ->setParameter('now', $now)
+            ->setParameter('nearFuture', $nearFuture)
+            ->orderBy('e.dateEvent', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

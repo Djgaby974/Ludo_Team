@@ -19,14 +19,14 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // Récupérer les événements à venir
-        $upcomingEvents = $eventRepository->findUpcomingEvents(3);
+        // Récupérer les événements à venir dans les 2 semaines
+        $upcomingEvents = $eventRepository->findNearbyEvents(14);
         
         // Récupérer les jeux populaires
         $popularGames = $gameRepository->findPopularGames(4);
 
         return $this->render('home/index.html.twig', [
-            'upcoming_events' => $upcomingEvents,
+            'upcomingEvents' => $upcomingEvents,
             'popular_games' => $popularGames,
             'user' => $this->getUser(),
         ]);

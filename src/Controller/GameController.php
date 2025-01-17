@@ -28,8 +28,7 @@ class GameController extends AbstractController
     #[Route('/new', name: 'app_game_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $game = new Game();
-        $form = $this->createForm(GameType::class, $game);
+        $form = $this->createForm(GameType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -62,7 +61,7 @@ class GameController extends AbstractController
         }
 
         return $this->render('game/new.html.twig', [
-            'game' => $game,
+            'game' => null,
             'form' => $form,
         ]);
     }
