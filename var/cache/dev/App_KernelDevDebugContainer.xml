@@ -379,6 +379,9 @@
       <tag name="doctrine.fixture.orm"/>
       <argument type="service" id="security.user_password_hasher"/>
     </service>
+    <service id="App\Form\EventType" class="App\Form\EventType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
     <service id="App\Form\GameType" class="App\Form\GameType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
@@ -1355,6 +1358,7 @@
         <argument>Symfony\Bridge\Doctrine\Form\Type</argument>
       </argument>
       <argument type="collection">
+        <argument>App\Form\EventType</argument>
         <argument>App\Form\GameType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\FormType</argument>
         <argument>Symfony\Component\Form\Extension\Core\Type\ChoiceType</argument>
@@ -3928,7 +3932,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension">
-      <argument type="service" id=".service_locator.UaaZEoV"/>
+      <argument type="service" id=".service_locator.cSGBqmf"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -7285,6 +7289,8 @@
     <service id=".abstract.instanceof.App\Controller\GameController" class="App\Controller\GameController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\FixturesBundle\ORMFixtureInterface.0.App\DataFixtures\AppFixtures" class="App\DataFixtures\AppFixtures" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\DataFixtures\AppFixtures" class="App\DataFixtures\AppFixtures" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\EventType" class="App\Form\EventType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\EventType" class="App\Form\EventType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\GameType" class="App\Form\GameType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\GameType" class="App\Form\GameType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\EventRepository" class="App\Repository\EventRepository" autowire="true" abstract="true"/>
@@ -8123,9 +8129,10 @@
       <argument type="service" id="argument_resolver.query_parameter_value_resolver"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.UaaZEoV" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.cSGBqmf" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Form\EventType" type="service_closure" id="App\Form\EventType"/>
         <argument key="App\Form\GameType" type="service_closure" id="App\Form\GameType"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="service_closure" id="form.type.form"/>
         <argument key="Symfony\Component\Form\Extension\Core\Type\ChoiceType" type="service_closure" id="form.type.choice"/>
