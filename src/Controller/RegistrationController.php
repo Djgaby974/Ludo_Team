@@ -25,6 +25,7 @@ class RegistrationController extends AbstractController
     ): Response {
         // Si l'utilisateur est déjà connecté, le rediriger
         if ($this->getUser()) {
+            $this->addFlash('error', 'Vous êtes déjà connecté.');
             return $this->redirectToRoute('app_home');
         }
 
@@ -32,22 +33,26 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Hacher le mot de passe
-            $plaintextPassword = $form->get('plainPassword')->getData();
-            $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
-            $user->setPassword($hashedPassword);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                try {
+                    // Hacher le mot de passe
+                    $plaintextPassword = $form->get('plainPassword')->getData();
+                    $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
+                    $user->setPassword($hashedPassword);
 
-            // Enregistrer l'utilisateur
-            $entityManager->persist($user);
-            $entityManager->flush();
+                    // Enregistrer l'utilisateur
+                    $entityManager->persist($user);
+                    $entityManager->flush();
 
-            // Connecter l'utilisateur automatiquement après l'inscription
-            return $userAuthenticator->authenticateUser(
-                $user, 
-                $authenticator, 
-                $request
-            ) ?: $this->redirectToRoute('app_home');
+                    $this->addFlash('success', 'Votre compte a été créé avec succès !');
+                    return $this->redirectToRoute('app_login');
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Une erreur est survenue lors de la création de votre compte.');
+                }
+            } else {
+                $this->addFlash('error', 'Veuillez corriger les erreurs du formulaire.');
+            }
         }
 
         return $this->render('security/register.html.twig', [

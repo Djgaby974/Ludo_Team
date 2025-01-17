@@ -1,0 +1,23 @@
+.validation-tooltip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    display: none;
+    max-width: 100%;
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.1rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 0.25rem;
+}
+
+input:focus + .validation-tooltip,
+input.is-invalid + .validation-tooltip {
+    display: block;
+}
+
+input.is-invalid {
+    border-color: #dc3545;
+}

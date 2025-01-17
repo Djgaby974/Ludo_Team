@@ -42,23 +42,17 @@
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid login-container">
-    <div class="row justify-content-center w-100">
-        <div class="col-md-5">
-            <div class="card login-card">
-                <div class="login-header">
-                    <h2 class="mb-0">
-                        <i class="fas fa-gamepad me-2"></i>LudoTeam
-                    </h2>
-                    <p class="text-white-50 mb-0">Connectez-vous pour rejoindre la communauté</p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Connexion</h2>
                 </div>
-                <div class="login-body">
+                <div class="card-body">
                     <form method="post">
                         {% if error %}
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                {{ error.messageKey|trans(error.messageData, 'security') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
 
                         {% if app.user %}
@@ -69,50 +63,34 @@
                         {% endif %}
 
                         <div class="mb-3">
-                            <label for="inputEmail" class="form-label">
-                                <i class="fas fa-envelope me-2"></i>Adresse email
-                            </label>
+                            <label for="inputEmail" class="form-label">Email</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" 
-                                       class="form-control" autocomplete="email" required autofocus 
-                                       placeholder="Entrez votre email">
+                                <input type="email" name="_username" id="inputEmail" class="form-control" autocomplete="email" required autofocus value="{{ last_username }}">
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="inputPassword" class="form-label">
-                                <i class="fas fa-lock me-2"></i>Mot de passe
-                            </label>
+                            <label for="inputPassword" class="form-label">Mot de passe</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                <input type="password" name="_password" id="inputPassword" 
-                                       class="form-control" autocomplete="current-password" required
-                                       placeholder="Entrez votre mot de passe">
+                                <input type="password" name="_password" id="inputPassword" class="form-control" autocomplete="current-password" required>
                             </div>
                         </div>
 
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                        <div class="d-grid gap-2 mb-3">
-                            <button class="btn btn-login text-white" type="submit">
-                                <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                        <div class="d-grid">
+                            <button class="btn btn-primary" type="submit">
+                                Se connecter
                             </button>
-                        </div>
-
-                        <div class="text-center">
-                            <a href="#" class="text-muted small">
-                                <i class="fas fa-question-circle me-1"></i>Mot de passe oublié ?
-                            </a>
                         </div>
                     </form>
                 </div>
-                <div class="login-footer">
+                <div class="card-footer text-center">
                     <p class="mb-0">
-                        Vous n'avez pas de compte ? 
-                        <a href="{{ path('app_register') }}" class="text-primary">
-                            <i class="fas fa-user-plus me-1"></i>Inscrivez-vous
-                        </a>
+                        Pas de compte ? 
+                        <a href="{{ path('app_register') }}" class="text-primary">Inscrivez-vous</a>
                     </p>
                 </div>
             </div>

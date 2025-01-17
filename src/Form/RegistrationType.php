@@ -6,12 +6,10 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class RegistrationType extends AbstractType
 {
@@ -21,42 +19,57 @@ class RegistrationType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
                 'attr' => [
-                    'placeholder' => 'Entrez votre adresse email'
+                    'placeholder' => 'Votre adresse email',
+                    'class' => 'form-control'
+                ],
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Veuillez saisir votre adresse email']),
+                    new Assert\Email(['message' => 'L\'adresse email "{{ value }}" n\'est pas valide']),
+                    new Assert\Length([
+                        'max' => 180,
+                        'maxMessage' => 'Votre adresse email ne peut pas dépasser {{ limit }} caractères'
+                    ])
                 ]
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom',
                 'attr' => [
-                    'placeholder' => 'Entrez votre prénom'
-                ]
-            ])
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent correspondre.',
-                'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
-                'first_options'  => [
-                    'label' => 'Mot de passe',
-                    'attr' => [
-                        'placeholder' => 'Entrez votre mot de passe'
-                    ]
-                ],
-                'second_options' => [
-                    'label' => 'Confirmez le mot de passe',
-                    'attr' => [
-                        'placeholder' => 'Confirmez votre mot de passe'
-                    ]
+                    'placeholder' => 'Votre prénom',
+                    'class' => 'form-control'
                 ],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez entrer un mot de passe',
+                    new Assert\NotBlank(['message' => 'Veuillez saisir votre prénom']),
+                    new Assert\Length([
+                        'min' => 2,
+                        'max' => 50,
+                        'minMessage' => 'Votre prénom doit contenir au moins {{ limit }} caractères',
+                        'maxMessage' => 'Votre prénom ne peut pas dépasser {{ limit }} caractères'
                     ]),
-                    new Length([
-                        'min' => 8,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
-                        'max' => 4096,
-                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^[a-zA-ZÀ-ÿ\-\' ]+$/',
+                        'message' => 'Votre prénom ne peut contenir que des lettres, des espaces, des traits d\'union et des apostrophes'
+                    ])
+                ]
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                'label' => 'Mot de passe',
+                'attr' => [
+                    'placeholder' => 'Votre mot de passe',
+                    'class' => 'form-control'
                 ],
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Le mot de passe est obligatoire']),
+                    new Assert\Length([
+                        'min' => 8,
+                        'max' => 255,
+                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
+                        'maxMessage' => 'Votre mot de passe ne peut pas dépasser {{ limit }} caractères'
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/',
+                        'message' => 'Le mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre'
+                    ])
+                ]
             ])
         ;
     }

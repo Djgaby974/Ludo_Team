@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation as SerializerAnnotation;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -58,8 +59,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: "Le mot de passe ne peut pas dépasser {{ limit }} caractères"
     )]
     #[Assert\Regex(
-        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
-        message: 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial'
+        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/',
+        message: 'Le mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre'
     )]
     #[SerializerAnnotation\Ignore]
     private ?string $plainPassword = null;
@@ -161,5 +162,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    #[Assert\Callback]
+    public function validate(ExecutionContextInterface $context, mixed $payload): void
+    {
+        // Validation explicite du mot de passe
+        if ($this->plainPassword) {
+            // Vérification de la longueur
+            if (strlen($this->plainPassword) < 8) {
+                $context->buildViolation('Le mot de passe doit contenir au moins 8 caractères')
+                    ->atPath('plainPassword')
+                    ->addViolation();
+            }
+
+            // Vérification de la complexité
+            if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/', $this->plainPassword)) {
+                $context->buildViolation('Le mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre')
+                    ->atPath('plainPassword')
+                    ->addViolation();
+            }
+        }
     }
 }

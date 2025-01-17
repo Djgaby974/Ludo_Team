@@ -123,11 +123,23 @@ class EventController extends AbstractController
                 }
             }
             
-            $entityManager->persist($event);
-            $entityManager->flush();
+            // Validation manuelle des jeux
+            $games = $event->getGames();
+            if (count($games) > 3) {
+                $this->addFlash('error', 'Un événement ne peut pas avoir plus de 3 jeux.');
+                return $this->redirectToRoute('app_event_new');
+            }
 
-            $this->addFlash('success', 'Votre événement a été créé avec succès.');
-            return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
+            try {
+                $entityManager->persist($event);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Votre événement a été créé avec succès.');
+                return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue lors de la création de l\'événement.');
+                return $this->redirectToRoute('app_event_new');
+            }
         }
 
         return $this->render('event/new.html.twig', [
@@ -164,9 +176,22 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            // Validation manuelle des jeux
+            $games = $event->getGames();
+            if (count($games) > 3) {
+                $this->addFlash('error', 'Un événement ne peut pas avoir plus de 3 jeux.');
+                return $this->redirectToRoute('app_event_edit', ['id' => $event->getId()]);
+            }
 
-            return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
+            try {
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Événement modifié avec succès !');
+                return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue lors de la modification de l\'événement.');
+                return $this->redirectToRoute('app_event_edit', ['id' => $event->getId()]);
+            }
         }
 
         return $this->render('event/edit.html.twig', [
@@ -184,8 +209,14 @@ class EventController extends AbstractController
         }
 
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($event);
-            $entityManager->flush();
+            try {
+                $entityManager->remove($event);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Événement supprimé avec succès !');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Une erreur est survenue lors de la suppression de l\'événement.');
+            }
         }
 
         return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
@@ -202,7 +233,7 @@ class EventController extends AbstractController
         }
 
         if ($event->getParticipants()->contains($user)) {
-            $this->addFlash('warning', 'Vous participez déjà à cet événement.');
+            $this->addFlash('error', 'Vous participez déjà à cet événement.');
             return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
         }
 
@@ -211,11 +242,16 @@ class EventController extends AbstractController
             return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
         }
 
-        $event->addParticipant($user);
-        $entityManager->persist($event);
-        $entityManager->flush();
+        try {
+            $event->addParticipant($user);
+            $entityManager->persist($event);
+            $entityManager->flush();
 
-        $this->addFlash('success', 'Vous avez rejoint l\'événement avec succès !');
+            $this->addFlash('success', 'Vous avez rejoint l\'événement avec succès !');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'inscription à l\'événement.');
+        }
+
         return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
     }
 
