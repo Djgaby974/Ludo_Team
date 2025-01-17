@@ -249,10 +249,19 @@
           <parameter>console</parameter>
         </parameter>
       </parameter>
+      <parameter key="monolog.handler.security" type="collection">
+        <parameter key="type">inclusive</parameter>
+        <parameter key="elements" type="collection">
+          <parameter>security</parameter>
+        </parameter>
+      </parameter>
       <parameter key="monolog.handler.main" type="collection">
         <parameter key="type">exclusive</parameter>
         <parameter key="elements" type="collection">
           <parameter>event</parameter>
+          <parameter>security</parameter>
+          <parameter>doctrine</parameter>
+          <parameter>console</parameter>
         </parameter>
       </parameter>
     </parameter>
@@ -431,6 +440,9 @@
     </service>
     <service id="App\Security\LoginFormAuthenticator" class="App\Security\LoginFormAuthenticator" autowire="true" autoconfigure="true">
       <argument type="service" id="router.default"/>
+      <argument type="service" id="monolog.logger"/>
+      <argument type="service" id="security.user_password_hasher"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
     <service id="App\Validator\Constraints\StrongPassword" class="App\Validator\Constraints\StrongPassword" autowire="true" autoconfigure="true"/>
     <service id="App\Validator\Constraints\StrongPasswordValidator" class="App\Validator\Constraints\StrongPasswordValidator" autowire="true" autoconfigure="true">
@@ -610,6 +622,7 @@
         <argument key="debug.security.firewall" type="service" id="debug.security.firewall" on-invalid="ignore_uninitialized"/>
         <argument key="debug.security.firewall.authenticator.main" type="service" id="debug.security.firewall.authenticator.main" on-invalid="ignore_uninitialized"/>
         <argument key="monolog.handler.main" type="service" id="monolog.handler.main" on-invalid="ignore_uninitialized"/>
+        <argument key="monolog.handler.security" type="service" id="monolog.handler.security" on-invalid="ignore_uninitialized"/>
         <argument key="monolog.handler.console" type="service" id="monolog.handler.console" on-invalid="ignore_uninitialized"/>
         <argument key="debug.security.event_dispatcher.main" type="service" id="debug.security.event_dispatcher.main" on-invalid="ignore_uninitialized"/>
         <argument key=".debug.http_client" type="service" id=".debug.http_client" on-invalid="ignore_uninitialized"/>
@@ -707,6 +720,9 @@
           <argument>reset</argument>
         </argument>
         <argument key="monolog.handler.main" type="collection">
+          <argument>reset</argument>
+        </argument>
+        <argument key="monolog.handler.security" type="collection">
           <argument>reset</argument>
         </argument>
         <argument key="monolog.handler.console" type="collection">
@@ -6298,7 +6314,7 @@
       <argument>false</argument>
       <argument>2</argument>
       <argument type="service" id="router.default" on-invalid="ignore"/>
-      <argument>^/((index|app(_[\w]+)?)\.php/)?_wdt</argument>
+      <argument></argument>
       <argument type="service" id="web_profiler.csp.handler"/>
       <argument type="service" id="data_collector.dump" on-invalid="ignore"/>
     </service>
@@ -6380,7 +6396,7 @@
       <argument type="service" id=".service_locator.NXTTdTW"/>
       <argument type="collection">
         <argument key="dev">null</argument>
-        <argument key="main" type="service" id=".service_locator.2iCfOeV"/>
+        <argument key="main" type="service" id=".service_locator.4.d68Zc"/>
       </argument>
     </service>
     <service id="security.user_value_resolver" class="Symfony\Component\Security\Http\Controller\UserValueResolver">
@@ -6938,7 +6954,7 @@
       <argument type="service" id=".service_locator.xRvtKlk"/>
       <argument type="collection">
         <argument key="main" type="collection">
-          <argument type="service" id="debug.App\Security\LoginFormAuthenticator"/>
+          <argument type="service" id="debug.security.authenticator.form_login.main"/>
         </argument>
       </argument>
       <argument>false</argument>
@@ -6992,19 +7008,19 @@
       <argument>false</argument>
       <argument>security.user.provider.concrete.app_user_provider</argument>
       <argument>main</argument>
-      <argument>App\Security\LoginFormAuthenticator</argument>
+      <argument>security.authenticator.form_login.main</argument>
       <argument>null</argument>
       <argument>null</argument>
       <argument type="collection">
-        <argument>App\Security\LoginFormAuthenticator</argument>
+        <argument>form_login</argument>
       </argument>
       <argument>null</argument>
       <argument type="collection">
         <argument key="path">app_logout</argument>
-        <argument key="target">app_login</argument>
         <argument key="enable_csrf">null</argument>
         <argument key="csrf_token_id">logout</argument>
         <argument key="csrf_parameter">_csrf_token</argument>
+        <argument key="target">/</argument>
         <argument key="invalidate_session">true</argument>
         <argument key="clear_site_data" type="collection"/>
         <argument key="delete_cookies" type="collection"/>
@@ -7050,18 +7066,67 @@
     <service id="security.logout.listener.default.main" class="Symfony\Component\Security\Http\EventListener\DefaultLogoutListener">
       <tag name="kernel.event_subscriber" dispatcher="debug.security.event_dispatcher.main"/>
       <argument type="service" id="security.http_utils"/>
-      <argument>app_login</argument>
+      <argument>/</argument>
     </service>
     <service id="security.logout.listener.session.main" class="Symfony\Component\Security\Http\EventListener\SessionLogoutListener">
       <tag name="kernel.event_subscriber" dispatcher="debug.security.event_dispatcher.main"/>
     </service>
-    <service id="debug.App\Security\LoginFormAuthenticator" class="Symfony\Component\Security\Http\Authenticator\Debug\TraceableAuthenticator">
-      <argument type="service" id="App\Security\LoginFormAuthenticator"/>
+    <service id="security.authenticator.form_login.main" class="Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator">
+      <argument type="service" id="security.http_utils"/>
+      <argument type="service" id="security.user.provider.concrete.app_user_provider"/>
+      <argument type="service" id="security.authentication.success_handler.main.form_login"/>
+      <argument type="service" id="security.authentication.failure_handler.main.form_login"/>
+      <argument type="collection">
+        <argument key="login_path">app_login</argument>
+        <argument key="check_path">app_login</argument>
+        <argument key="use_forward">false</argument>
+        <argument key="username_parameter">_username</argument>
+        <argument key="password_parameter">_password</argument>
+        <argument key="csrf_parameter">_csrf_token</argument>
+        <argument key="csrf_token_id">authenticate</argument>
+        <argument key="enable_csrf">false</argument>
+        <argument key="post_only">true</argument>
+        <argument key="form_only">false</argument>
+      </argument>
+    </service>
+    <service id="security.authentication.success_handler.main.form_login" class="Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler">
+      <argument type="service" id="security.http_utils"/>
+      <argument type="collection"/>
+      <argument type="service" id="monolog.logger" on-invalid="null"/>
+      <call method="setOptions">
+        <argument type="collection">
+          <argument key="login_path">app_login</argument>
+          <argument key="always_use_default_target_path">false</argument>
+          <argument key="default_target_path">/</argument>
+          <argument key="target_path_parameter">_target_path</argument>
+          <argument key="use_referer">false</argument>
+        </argument>
+      </call>
+      <call method="setFirewallName">
+        <argument>main</argument>
+      </call>
+    </service>
+    <service id="security.authentication.failure_handler.main.form_login" class="Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler">
+      <argument type="service" id="http_kernel"/>
+      <argument type="service" id="security.http_utils"/>
+      <argument type="collection"/>
+      <argument type="service" id="monolog.logger.security" on-invalid="null"/>
+      <call method="setOptions">
+        <argument type="collection">
+          <argument key="login_path">app_login</argument>
+          <argument key="failure_path">null</argument>
+          <argument key="failure_forward">false</argument>
+          <argument key="failure_path_parameter">_failure_path</argument>
+        </argument>
+      </call>
+    </service>
+    <service id="debug.security.authenticator.form_login.main" class="Symfony\Component\Security\Http\Authenticator\Debug\TraceableAuthenticator">
+      <argument type="service" id="security.authenticator.form_login.main"/>
     </service>
     <service id="security.authenticator.manager.main" class="Symfony\Component\Security\Http\Authentication\AuthenticatorManager">
       <tag name="monolog.logger" channel="security"/>
       <argument type="collection">
-        <argument type="service" id="debug.App\Security\LoginFormAuthenticator"/>
+        <argument type="service" id="debug.security.authenticator.form_login.main"/>
       </argument>
       <argument type="service" id="security.token_storage"/>
       <argument type="service" id="debug.security.event_dispatcher.main"/>
@@ -7085,16 +7150,16 @@
       <argument type="service" id="security.authentication.trust_resolver"/>
       <argument type="service" id="security.http_utils"/>
       <argument>main</argument>
-      <argument type="service" id="App\Security\LoginFormAuthenticator"/>
+      <argument type="service" id="security.authenticator.form_login.main"/>
       <argument>null</argument>
       <argument>null</argument>
       <argument type="service" id="monolog.logger.security" on-invalid="null"/>
       <argument>false</argument>
     </service>
-    <service id=".service_locator.2iCfOeV" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.4.d68Zc" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="debug.App\Security\LoginFormAuthenticator" type="service_closure" id="debug.App\Security\LoginFormAuthenticator"/>
+        <argument key="debug.security.authenticator.form_login.main" type="service_closure" id="debug.security.authenticator.form_login.main"/>
       </argument>
     </service>
     <service id="security.firewall.map.context.main" class="Symfony\Bundle\SecurityBundle\Security\LazyFirewallContext">
@@ -7216,6 +7281,17 @@
     <service id="monolog.handler.main" class="Monolog\Handler\StreamHandler">
       <tag name="kernel.reset" method="reset"/>
       <argument>C:\wamp64\www\LudoTeam\var\log/dev.log</argument>
+      <argument>debug</argument>
+      <argument>true</argument>
+      <argument>null</argument>
+      <argument>false</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="monolog.processor.psr_log_message"/>
+      </call>
+    </service>
+    <service id="monolog.handler.security" class="Monolog\Handler\StreamHandler">
+      <tag name="kernel.reset" method="reset"/>
+      <argument>C:\wamp64\www\LudoTeam\var\log/security.log</argument>
       <argument>debug</argument>
       <argument>true</argument>
       <argument>null</argument>
@@ -8675,7 +8751,7 @@
     <service id="monolog.logger.console" class="Monolog\Logger">
       <argument>console</argument>
       <call method="pushHandler">
-        <argument type="service" id="monolog.handler.main"/>
+        <argument type="service" id="monolog.handler.null_internal"/>
       </call>
       <configurator service="debug.debug_logger_configurator" method="pushDebugLogger"/>
     </service>
@@ -8779,7 +8855,7 @@
     <service id="monolog.logger.doctrine" class="Monolog\Logger">
       <argument>doctrine</argument>
       <call method="pushHandler">
-        <argument type="service" id="monolog.handler.main"/>
+        <argument type="service" id="monolog.handler.null_internal"/>
       </call>
       <configurator service="debug.debug_logger_configurator" method="pushDebugLogger"/>
     </service>
@@ -8793,13 +8869,13 @@
       </call>
       <configurator service="debug.debug_logger_configurator" method="pushDebugLogger"/>
     </service>
-    <service id="monolog.logger.security" class="Monolog\Logger">
+    <service id="monolog.logger.security" class="Monolog\Logger" public="true">
       <argument>security</argument>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
       <call method="pushHandler">
-        <argument type="service" id="monolog.handler.main"/>
+        <argument type="service" id="monolog.handler.security"/>
       </call>
       <configurator service="debug.debug_logger_configurator" method="pushDebugLogger"/>
     </service>

@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\BoardGame;
+use App\Entity\CardGame;
+use App\Entity\DuelGame;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,6 +33,28 @@ class GameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Définir le type de jeu
+            $type = $form->get('type')->getData();
+            
+            // Créer l'instance de jeu appropriée
+            switch ($type) {
+                case 'board':
+                    $game = new BoardGame();
+                    break;
+                case 'card':
+                    $game = new CardGame();
+                    break;
+                case 'duel':
+                    $game = new DuelGame();
+                    break;
+                default:
+                    throw new \InvalidArgumentException('Type de jeu invalide');
+            }
+
+            // Copier les données du formulaire
+            $game->setName($form->get('name')->getData());
+            $game->setMaxParticipants($form->get('maxParticipants')->getData());
+
             $entityManager->persist($game);
             $entityManager->flush();
 
