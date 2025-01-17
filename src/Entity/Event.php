@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
@@ -20,19 +21,34 @@ class Event
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['event_details'])]
+    #[Assert\NotNull(message: "L'organisateur de l'événement est obligatoire")]
     private ?User $organisateur = null;
 
     #[ORM\ManyToMany(targetEntity: User::class)]
     #[ORM\JoinTable(name: 'event_participants')]
     #[Groups(['event_participants'])]
+    #[Assert\Count(
+        min: 2, 
+        max: 10, 
+        minMessage: "Un événement doit avoir au moins {{ limit }} participants", 
+        maxMessage: "Un événement ne peut pas avoir plus de {{ limit }} participants"
+    )]
     private Collection $participants;
 
     #[ORM\ManyToMany(targetEntity: Game::class)]
     #[Groups(['event_games'])]
+    #[Assert\Count(
+        min: 1, 
+        max: 3, 
+        minMessage: "Un événement doit avoir au moins {{ limit }} jeu", 
+        maxMessage: "Un événement ne peut pas avoir plus de {{ limit }} jeux"
+    )]
     private Collection $games;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['event_details'])]
+    #[Assert\NotNull(message: "La date de l'événement est obligatoire")]
+    #[Assert\GreaterThan('now', message: "La date de l'événement doit être dans le futur")]
     private ?\DateTimeInterface $dateEvent = null;
 
     public function __construct()

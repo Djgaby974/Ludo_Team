@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -19,6 +20,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Groups(['user_details', 'event_participants'])]
+    #[Assert\NotBlank(message: "L'email est obligatoire")]
+    #[Assert\Email(message: "L'email '{{ value }}' n'est pas un email valide")]
     private ?string $email = null;
 
     /**
@@ -31,10 +34,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le mot de passe est obligatoire")]
+    #[Assert\Length(
+        min: 8, 
+        minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères"
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Groups(['user_details', 'event_participants'])]
+    #[Assert\Length(
+        min: 2, 
+        max: 50, 
+        minMessage: "Le prénom doit contenir au moins {{ limit }} caractères", 
+        maxMessage: "Le prénom ne peut pas dépasser {{ limit }} caractères"
+    )]
     private ?string $prenom = null;
 
     public function getId(): ?int
