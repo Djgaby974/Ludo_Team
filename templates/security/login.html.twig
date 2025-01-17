@@ -2,35 +2,134 @@
 
 {% block title %}Connexion{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        }
+        .login-card {
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .login-header {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .login-body {
+            padding: 30px;
+        }
+        .btn-login {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        .btn-login:hover {
+            transform: scale(1.05);
+        }
+        .login-footer {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h1 class="text-center mb-4">Connexion</h1>
-
-            {% if error %}
-                <div class="alert alert-danger">
-                    {{ error.messageKey|trans(error.messageData, 'security') }}
+<div class="container-fluid login-container">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-5">
+            <div class="card login-card">
+                <div class="login-header">
+                    <h2 class="mb-0">
+                        <i class="fas fa-gamepad me-2"></i>LudoTeam
+                    </h2>
+                    <p class="text-white-50 mb-0">Connectez-vous pour rejoindre la communauté</p>
                 </div>
-            {% endif %}
+                <div class="login-body">
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ error.messageKey|trans(error.messageData, 'security') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endif %}
 
-            <form method="post">
-                <div class="form-group">
-                    <label for="username">Email</label>
-                    <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" required autofocus>
+                        {% if app.user %}
+                            <div class="alert alert-info">
+                                Vous êtes déjà connecté en tant que {{ app.user.prenom }}, 
+                                <a href="{{ path('app_logout') }}" class="alert-link">Déconnexion</a>
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="inputEmail" class="form-label">
+                                <i class="fas fa-envelope me-2"></i>Adresse email
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" 
+                                       class="form-control" autocomplete="email" required autofocus 
+                                       placeholder="Entrez votre email">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="inputPassword" class="form-label">
+                                <i class="fas fa-lock me-2"></i>Mot de passe
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                <input type="password" name="_password" id="inputPassword" 
+                                       class="form-control" autocomplete="current-password" required
+                                       placeholder="Entrez votre mot de passe">
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="d-grid gap-2 mb-3">
+                            <button class="btn btn-login text-white" type="submit">
+                                <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <a href="#" class="text-muted small">
+                                <i class="fas fa-question-circle me-1"></i>Mot de passe oublié ?
+                            </a>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="_password" id="password" class="form-control" required>
+                <div class="login-footer">
+                    <p class="mb-0">
+                        Vous n'avez pas de compte ? 
+                        <a href="{{ path('app_register') }}" class="text-primary">
+                            <i class="fas fa-user-plus me-1"></i>Inscrivez-vous
+                        </a>
+                    </p>
                 </div>
-
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                <button type="submit" class="btn btn-primary btn-block">
-                    Connexion
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fermeture automatique des alertes
+            var alertList = document.querySelectorAll('.alert')
+            alertList.forEach(function (alert) {
+                new bootstrap.Alert(alert)
+            })
+        });
+    </script>
 {% endblock %}

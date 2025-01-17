@@ -1,51 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription - LudoTeam{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Inscription</h2>
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Inscription à LudoTeam</h2>
                 </div>
                 <div class="card-body">
                     {{ form_start(registrationForm, {'attr': {'class': 'registration-form'}}) }}
                         <div class="mb-3">
-                            {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_label(registrationForm.email, 'Adresse email') }}
                             {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(registrationForm.email) }}
                         </div>
 
                         <div class="mb-3">
-                            {{ form_label(registrationForm.prenom, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_label(registrationForm.prenom, 'Prénom') }}
                             {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(registrationForm.prenom) }}
                         </div>
 
                         <div class="mb-3">
-                            {{ form_label(registrationForm.plainPassword.first, 'Mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_label(registrationForm.plainPassword.first, 'Mot de passe') }}
                             {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(registrationForm.plainPassword.first) }}
                         </div>
 
                         <div class="mb-3">
-                            {{ form_label(registrationForm.plainPassword.second, 'Confirmer le mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_label(registrationForm.plainPassword.second, 'Confirmez le mot de passe') }}
                             {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
                             {{ form_errors(registrationForm.plainPassword.second) }}
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                S'inscrire
-                            </button>
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
                         </div>
                     {{ form_end(registrationForm) }}
                 </div>
                 <div class="card-footer text-center">
-                    <p>Déjà un compte ? 
-                        <a href="{{ path('app_login') }}">Connectez-vous</a>
+                    <p class="mb-0">
+                        Vous avez déjà un compte ? 
+                        <a href="{{ path('app_login') }}" class="text-primary">Connectez-vous</a>
                     </p>
                 </div>
             </div>
