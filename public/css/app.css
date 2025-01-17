@@ -1,0 +1,36 @@
+/* Styles généraux */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+/* Styles spécifiques */
+.jumbotron {
+    background-color: #e9ecef;
+    padding: 2rem;
+    border-radius: 0.5rem;
+}
+
+.footer {
+    margin-top: 2rem;
+    background-color: #f8f9fa !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-deck .card {
+        margin-bottom: 1rem;
+    }
+}
