@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/event')]
 class EventController extends AbstractController
@@ -215,5 +217,47 @@ class EventController extends AbstractController
 
         $this->addFlash('success', 'Vous avez rejoint l\'événement avec succès !');
         return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
+    }
+
+    #[Route('/api/events', name: 'app_api_events', methods: ['GET'])]
+    public function apiEvents(EventRepository $eventRepository, SerializerInterface $serializer): JsonResponse
+    {
+        $events = $eventRepository->findAll();
+        
+        $eventsData = [];
+        foreach ($events as $event) {
+            $eventData = [
+                'id' => $event->getId(),
+                'name' => $event->getName(),
+                'description' => $event->getDescription(),
+                'dateEvent' => $event->getDateEvent()->format('Y-m-d H:i:s'),
+                'location' => $event->getLocation(),
+                'maxParticipants' => $event->getMaxParticipants(),
+                'participants' => [],
+                'games' => []
+            ];
+
+            // Ajouter les participants
+            foreach ($event->getParticipants() as $participant) {
+                $eventData['participants'][] = [
+                    'id' => $participant->getId(),
+                    'email' => $participant->getEmail(),
+                    'prenom' => $participant->getPrenom()
+                ];
+            }
+
+            // Ajouter les jeux
+            foreach ($event->getGames() as $game) {
+                $eventData['games'][] = [
+                    'id' => $game->getId(),
+                    'name' => $game->getName(),
+                    'type' => $game->getGameType()
+                ];
+            }
+
+            $eventsData[] = $eventData;
+        }
+
+        return new JsonResponse($eventsData, JsonResponse::HTTP_OK, [], false);
     }
 }
