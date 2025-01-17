@@ -85,72 +85,23 @@
         <div class="col-lg-10">
             <div class="search-form">
                 {{ form_start(form, {'attr': {'class': 'row g-4'}}) }}
-                    {{ display_form_errors(form) }}
-                    <div class="col-md-3">
-                        <div class="form-floating">
-                            {{ form_widget(form.dateFrom, {'attr': {'class': 'form-control', 'placeholder': 'Date de début'}}) }}
-                            {{ form_label(form.dateFrom, 'Date de début') }}
-                            {% if form_errors(form.dateFrom)|length > 0 %}
-                                <div class="text-danger small mt-1">
-                                    {% for error in form_errors(form.dateFrom) %}
-                                        <p class="mb-0">{{ error.message }}</p>
-                                    {% endfor %}
+                    {% for child in form.children %}
+                        {% if child.vars.name != 'games' %}
+                            <div class="col-md-3">
+                                <div class="form-floating">
+                                    {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+                                    {{ form_label(child) }}
+                                    {% if form_errors(child)|length > 0 %}
+                                        <div class="text-danger small mt-1">
+                                            {% for error in form_errors(child) %}
+                                                <p class="mb-0">{{ error.message }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-floating">
-                            {{ form_widget(form.dateTo, {'attr': {'class': 'form-control', 'placeholder': 'Date de fin'}}) }}
-                            {{ form_label(form.dateTo, 'Date de fin') }}
-                            {% if form_errors(form.dateTo)|length > 0 %}
-                                <div class="text-danger small mt-1">
-                                    {% for error in form_errors(form.dateTo) %}
-                                        <p class="mb-0">{{ error.message }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-floating">
-                            {{ form_widget(form.gameType, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_label(form.gameType, 'Type de jeu') }}
-                            {% if form_errors(form.gameType)|length > 0 %}
-                                <div class="text-danger small mt-1">
-                                    {% for error in form_errors(form.gameType) %}
-                                        <p class="mb-0">{{ error.message }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-floating">
-                            {{ form_widget(form.minParticipants, {'attr': {'class': 'form-control', 'placeholder': 'Min. participants'}}) }}
-                            {{ form_label(form.minParticipants, 'Min. participants') }}
-                            {% if form_errors(form.minParticipants)|length > 0 %}
-                                <div class="text-danger small mt-1">
-                                    {% for error in form_errors(form.minParticipants) %}
-                                        <p class="mb-0">{{ error.message }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            {{ form_widget(form.gameName, {'attr': {'class': 'form-control', 'placeholder': 'Rechercher un jeu'}}) }}
-                            {{ form_label(form.gameName, 'Nom du jeu') }}
-                            {% if form_errors(form.gameName)|length > 0 %}
-                                <div class="text-danger small mt-1">
-                                    {% for error in form_errors(form.gameName) %}
-                                        <p class="mb-0">{{ error.message }}</p>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                     <div class="col-12 mt-4">
                         <label class="form-label">Jeux disponibles</label>
                         <div class="game-checkboxes">

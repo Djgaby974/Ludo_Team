@@ -504,7 +504,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.18d5.uP"/>
+      <argument type="service" id=".service_locator.3sPi8wQ"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3459,7 +3459,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.18d5.uP"/>
+      <argument type="service" id=".service_locator.3sPi8wQ"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -8348,6 +8348,25 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.wxPd78M" method="withContext"/>
     </service>
+    <service id=".service_locator.egipcEH.App\Controller\ProfileController::editProfile()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ProfileController::editProfile()"/>
+      <argument>App\Controller\ProfileController::editProfile()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.egipcEH" method="withContext"/>
+    </service>
+    <service id=".service_locator.5SuUxla" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="passwordHasher" type="service_closure" id="security.user_password_hasher"/>
+        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.5SuUxla.App\Controller\ProfileController::changePassword()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ProfileController::changePassword()"/>
+      <argument>App\Controller\ProfileController::changePassword()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.5SuUxla" method="withContext"/>
+    </service>
     <service id=".service_locator.3UftKhH" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8381,20 +8400,13 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.3QECKYg" method="withContext"/>
     </service>
-    <service id=".service_locator.5SuUxla" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="passwordHasher" type="service_closure" id="security.user_password_hasher"/>
-        <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
-      </argument>
-    </service>
     <service id=".service_locator.5SuUxla.App\Controller\SecurityController::register()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\SecurityController::register()"/>
       <argument>App\Controller\SecurityController::register()</argument>
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.5SuUxla" method="withContext"/>
     </service>
-    <service id=".service_locator.18d5.uP" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.3sPi8wQ" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
@@ -8422,6 +8434,8 @@
         <argument key="App\Controller\GameController::delete" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::delete()"/>
         <argument key="App\Controller\HomeController::index" type="service_closure" id=".service_locator.kkA9ATv.App\Controller\HomeController::index()"/>
         <argument key="App\Controller\ProfileController::index" type="service_closure" id=".service_locator.wxPd78M.App\Controller\ProfileController::index()"/>
+        <argument key="App\Controller\ProfileController::editProfile" type="service_closure" id=".service_locator.egipcEH.App\Controller\ProfileController::editProfile()"/>
+        <argument key="App\Controller\ProfileController::changePassword" type="service_closure" id=".service_locator.5SuUxla.App\Controller\ProfileController::changePassword()"/>
         <argument key="App\Controller\RegistrationController::register" type="service_closure" id=".service_locator.3UftKhH.App\Controller\RegistrationController::register()"/>
         <argument key="App\Controller\SearchController::searchEvents" type="service_closure" id=".service_locator.wxPd78M.App\Controller\SearchController::searchEvents()"/>
         <argument key="App\Controller\SecurityController::login" type="service_closure" id=".service_locator.3QECKYg.App\Controller\SecurityController::login()"/>
@@ -8449,6 +8463,8 @@
         <argument key="App\Controller\GameController:delete" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::delete()"/>
         <argument key="App\Controller\HomeController:index" type="service_closure" id=".service_locator.kkA9ATv.App\Controller\HomeController::index()"/>
         <argument key="App\Controller\ProfileController:index" type="service_closure" id=".service_locator.wxPd78M.App\Controller\ProfileController::index()"/>
+        <argument key="App\Controller\ProfileController:editProfile" type="service_closure" id=".service_locator.egipcEH.App\Controller\ProfileController::editProfile()"/>
+        <argument key="App\Controller\ProfileController:changePassword" type="service_closure" id=".service_locator.5SuUxla.App\Controller\ProfileController::changePassword()"/>
         <argument key="App\Controller\RegistrationController:register" type="service_closure" id=".service_locator.3UftKhH.App\Controller\RegistrationController::register()"/>
         <argument key="App\Controller\SearchController:searchEvents" type="service_closure" id=".service_locator.wxPd78M.App\Controller\SearchController::searchEvents()"/>
         <argument key="App\Controller\SecurityController:login" type="service_closure" id=".service_locator.3QECKYg.App\Controller\SecurityController::login()"/>
@@ -10688,7 +10704,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.pRu6x_4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.18d5.uP"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.3sPi8wQ"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -10741,9 +10757,9 @@
     <service id=".service_locator.YDwUP9z" alias=".service_locator.NPg3n2e"/>
     <service id=".service_locator.CU.XL48" alias=".service_locator.n4FJayR"/>
     <service id=".service_locator.hSHDAZn" alias=".service_locator.kkA9ATv"/>
+    <service id=".service_locator.xpyIvFE" alias=".service_locator.5SuUxla"/>
     <service id=".service_locator.m2Bg6YH" alias=".service_locator.3UftKhH"/>
     <service id=".service_locator.Nrz07Zz" alias=".service_locator.3QECKYg"/>
-    <service id=".service_locator.xpyIvFE" alias=".service_locator.5SuUxla"/>
     <service id=".service_locator.9nvaCmp" alias=".service_locator.ZyP9f7K"/>
   </services>
 </container>

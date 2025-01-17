@@ -19,9 +19,7 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request, 
         UserPasswordHasherInterface $passwordHasher, 
-        EntityManagerInterface $entityManager,
-        UserAuthenticatorInterface $userAuthenticator,
-        LoginFormAuthenticator $authenticator
+        EntityManagerInterface $entityManager
     ): Response {
         // Si l'utilisateur est déjà connecté, le rediriger
         if ($this->getUser()) {
@@ -34,11 +32,13 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            // Vérifier que les mots de passe correspondent
+            $plainPassword = $form->get('plainPassword')->getData();
+
             if ($form->isValid()) {
                 try {
                     // Hacher le mot de passe
-                    $plaintextPassword = $form->get('plainPassword')->getData();
-                    $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
+                    $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
                     $user->setPassword($hashedPassword);
 
                     // Enregistrer l'utilisateur

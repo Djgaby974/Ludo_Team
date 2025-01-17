@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -51,24 +52,36 @@ class RegistrationType extends AbstractType
                     ])
                 ]
             ])
-            ->add('plainPassword', PasswordType::class, [
-                'label' => 'Mot de passe',
-                'attr' => [
-                    'placeholder' => 'Votre mot de passe',
-                    'class' => 'form-control'
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent correspondre.',
+                'required' => true,
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Votre mot de passe',
+                        'class' => 'form-control'
+                    ],
+                    'constraints' => [
+                        new Assert\NotBlank(['message' => 'Le mot de passe est obligatoire']),
+                        new Assert\Length([
+                            'min' => 8,
+                            'max' => 255,
+                            'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
+                            'maxMessage' => 'Votre mot de passe ne peut pas dépasser {{ limit }} caractères'
+                        ]),
+                        new Assert\Regex([
+                            'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/',
+                            'message' => 'Le mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre'
+                        ])
+                    ]
                 ],
-                'constraints' => [
-                    new Assert\NotBlank(['message' => 'Le mot de passe est obligatoire']),
-                    new Assert\Length([
-                        'min' => 8,
-                        'max' => 255,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
-                        'maxMessage' => 'Votre mot de passe ne peut pas dépasser {{ limit }} caractères'
-                    ]),
-                    new Assert\Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/',
-                        'message' => 'Le mot de passe doit contenir au moins une minuscule, une majuscule et un chiffre'
-                    ])
+                'second_options' => [
+                    'label' => 'Confirmer le mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Confirmer votre mot de passe',
+                        'class' => 'form-control'
+                    ]
                 ]
             ])
         ;
