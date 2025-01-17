@@ -20,6 +20,14 @@ class ApiController extends AbstractController
         $this->serializer = $serializer;
     }
 
+    #[Route('/', name: 'api_index', methods: ['GET'])]
+    public function index(): string
+    {
+        return $this->render('api/index.html.twig', [
+            'controller_name' => 'ApiController'
+        ]);
+    }
+
     #[Route('/events', name: 'api_events_list', methods: ['GET'])]
     public function listEvents(EventRepository $eventRepository): JsonResponse
     {

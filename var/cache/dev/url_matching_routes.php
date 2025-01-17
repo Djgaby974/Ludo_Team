@@ -15,6 +15,7 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+        '/api' => [[['_route' => 'api_index', '_controller' => 'App\\Controller\\ApiController::index'], null, ['GET' => 0], null, true, false, null]],
         '/api/events' => [
             [['_route' => 'api_events_list', '_controller' => 'App\\Controller\\ApiController::listEvents'], null, ['GET' => 0], null, false, false, null],
             [['_route' => 'api_events', '_controller' => 'App\\Controller\\ApiController::listEvents'], null, ['GET' => 0], null, false, false, null],

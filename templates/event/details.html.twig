@@ -17,7 +17,7 @@
                             <p><strong>Lieu :</strong> {{ event.location }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Organisateur :</strong> {{ event.organisateur.username }}</p>
+                            <p><strong>Organisateur :</strong> {{ event.organisateur.userIdentifier }}</p>
                             <p><strong>Nombre max de participants :</strong> {{ event.maxParticipants }}</p>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <h4>Participants</h4>
                         <ul class="list-group">
                             {% for participant in event.participants %}
-                                <li class="list-group-item">{{ participant.username }}</li>
+                                <li class="list-group-item">{{ participant.userIdentifier }}</li>
                             {% endfor %}
                         </ul>
                     </div>

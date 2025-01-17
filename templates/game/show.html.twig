@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du jeu {{ game.name }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h2>{{ game.name }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nombre de joueurs :</strong> 2 - {{ game.maxParticipants }}</p>
+                        </div>
+                    </div>
+
+                    {% if game.description %}
+                    <div class="mt-3">
+                        <h4>Description</h4>
+                        <p class="card-text">{{ game.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if game.rules %}
+                    <div class="mt-3">
+                        <h4>Règles</h4>
+                        <p class="card-text">{{ game.rules }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_game_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                    
+                    {% if app.user %}
+                        <a href="{{ path('app_game_edit', {'id': game.id}) }}" class="btn btn-warning">Modifier</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

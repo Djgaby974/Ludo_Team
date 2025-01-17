@@ -3,10 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Validator\Constraints as AppAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation as SerializerAnnotation;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -36,7 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank(message: "Le mot de passe est obligatoire")]
-    #[AppAssert\StrongPassword]
     private ?string $password = null;
 
     #[ORM\Column(length: 100, nullable: true)]
@@ -48,6 +47,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: "Le prénom ne peut pas dépasser {{ limit }} caractères"
     )]
     private ?string $prenom = null;
+
+    /**
+     * @var string The plain password
+     */
+    #[Assert\NotBlank(message: "Le mot de passe est obligatoire")]
+    #[Assert\Length(
+        min: 8, 
+        max: 255, 
+        minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères", 
+        maxMessage: "Le mot de passe ne peut pas dépasser {{ limit }} caractères"
+    )]
+    #[Assert\Regex(
+        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+        message: 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial'
+    )]
+    #[SerializerAnnotation\Ignore]
+    private ?string $plainPassword = null;
 
     public function getId(): ?int
     {
@@ -123,6 +139,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPrenom(?string $prenom): static
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): static
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
