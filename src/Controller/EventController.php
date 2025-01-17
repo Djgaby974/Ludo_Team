@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,17 +25,38 @@ class EventController extends AbstractController
     #[Route('/new', name: 'app_event_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // Vérifier que l'utilisateur est connecté
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addFlash('error', 'Vous devez être connecté pour créer un événement.');
+            return $this->redirectToRoute('app_login');
+        }
+
         $event = new Event();
+        // Définir l'organisateur avant de créer le formulaire
+        $event->setOrganisateur($user);
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Définir l'organisateur comme l'utilisateur connecté
-            $event->setOrganisateur($this->getUser());
+            // Ajouter l'organisateur comme participant s'il n'est pas déjà dans la liste
+            if (!$event->getParticipants()->contains($user)) {
+                $event->addParticipant($user);
+            }
+            
+            // Ajouter les participants sélectionnés
+            $selectedParticipants = $form->get('participants')->getData();
+            foreach ($selectedParticipants as $participant) {
+                if (!$event->getParticipants()->contains($participant)) {
+                    $event->addParticipant($participant);
+                }
+            }
             
             $entityManager->persist($event);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Votre événement a été créé avec succès.');
             return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
         }
 

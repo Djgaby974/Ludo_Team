@@ -90,8 +90,7 @@ class Event
     #[Assert\Range(
         min: 2, 
         max: 20, 
-        minMessage: "Un événement doit avoir au moins {{ limit }} participants", 
-        maxMessage: "Un événement ne peut pas avoir plus de {{ limit }} participants"
+        notInRangeMessage: "Le nombre de participants doit être entre {{ min }} et {{ max }}"
     )]
     private ?int $maxParticipants = null;
 
@@ -232,5 +231,12 @@ class Event
             return false;
         }
         return $this->participants->contains($user);
+    }
+
+    // Méthode pour ajouter l'organisateur comme premier participant
+    public function initializeParticipants(User $organizer)
+    {
+        $this->organisateur = $organizer;
+        $this->addParticipant($organizer);
     }
 }

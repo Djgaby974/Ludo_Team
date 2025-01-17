@@ -62,9 +62,16 @@ class EventType extends AbstractType
             ->add('participants', EntityType::class, [
                 'label' => 'Participants',
                 'class' => User::class,
-                'choice_label' => 'prenom',
+                'choice_label' => function(User $user) {
+                    return $user->getPrenom() ?: 'Utilisateur sans prénom';
+                },
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'select2',
+                    'data-placeholder' => 'Sélectionnez les participants'
+                ]
             ])
         ;
     }

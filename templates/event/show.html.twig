@@ -47,15 +47,15 @@
                 </div>
                 <div class="card-footer">
                     {% if app.user %}
-                        {% if event.isParticipant(app.user) %}
+                        {% if not event.isParticipant(app.user) %}
+                            <form action="{{ path('app_event_register', {'id': event.id}) }}" method="post" class="d-inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('register_event_' ~ event.id) }}">
+                                <button type="submit" class="btn btn-success">Rejoindre l'événement</button>
+                            </form>
+                        {% else %}
                             <form action="{{ path('app_event_unregister', {'id': event.id}) }}" method="post" class="d-inline">
                                 <input type="hidden" name="_token" value="{{ csrf_token('unregister_event_' ~ event.id) }}">
                                 <button type="submit" class="btn btn-danger">Se désinscrire</button>
-                            </form>
-                        {% else %}
-                            <form action="{{ path('app_event_register', {'id': event.id}) }}" method="post" class="d-inline">
-                                <input type="hidden" name="_token" value="{{ csrf_token('register_event_' ~ event.id) }}">
-                                <button type="submit" class="btn btn-success">S'inscrire</button>
                             </form>
                         {% endif %}
                     {% endif %}

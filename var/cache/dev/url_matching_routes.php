@@ -70,25 +70,27 @@ return [
                             .'|details(*:270)'
                             .'|edit(*:282)'
                             .'|join(*:294)'
+                            .'|register(*:310)'
+                            .'|unregister(*:328)'
                         .')'
-                        .'|(*:303)'
+                        .'|(*:337)'
                     .')'
                     .'|s/(?'
-                        .'|(\\d+)(*:322)'
-                        .'|(\\d+)/edit(*:340)'
-                        .'|(\\d+)/delete(*:360)'
+                        .'|(\\d+)(*:356)'
+                        .'|(\\d+)/edit(*:374)'
+                        .'|(\\d+)/delete(*:394)'
                     .')'
                 .')'
                 .'|/game(?'
                     .'|/([^/]++)(?'
-                        .'|(*:390)'
-                        .'|/edit(*:403)'
-                        .'|(*:411)'
+                        .'|(*:424)'
+                        .'|/edit(*:437)'
+                        .'|(*:445)'
                     .')'
                     .'|s/(?'
-                        .'|(\\d+)(*:430)'
-                        .'|(\\d+)/edit(*:448)'
-                        .'|(\\d+)/delete(*:468)'
+                        .'|(\\d+)(*:464)'
+                        .'|(\\d+)/edit(*:482)'
+                        .'|(\\d+)/delete(*:502)'
                     .')'
                 .')'
             .')/?$}sDu',
@@ -107,16 +109,18 @@ return [
         270 => [[['_route' => 'app_event_details', '_controller' => 'App\\Controller\\EventController::details'], ['id'], ['GET' => 0], null, false, false, null]],
         282 => [[['_route' => 'app_event_edit', '_controller' => 'App\\Controller\\EventController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
         294 => [[['_route' => 'app_event_join', '_controller' => 'App\\Controller\\EventController::join'], ['id'], ['GET' => 0], null, false, false, null]],
-        303 => [[['_route' => 'app_event_delete', '_controller' => 'App\\Controller\\EventController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        322 => [[['_route' => 'event_show', '_controller' => 'App\\Controller\\EventController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        340 => [[['_route' => 'event_edit', '_controller' => 'App\\Controller\\EventController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        360 => [[['_route' => 'event_delete', '_controller' => 'App\\Controller\\EventController::delete'], ['id'], ['DELETE' => 0], null, false, false, null]],
-        390 => [[['_route' => 'app_game_show', '_controller' => 'App\\Controller\\GameController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        403 => [[['_route' => 'app_game_edit', '_controller' => 'App\\Controller\\GameController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        411 => [[['_route' => 'app_game_delete', '_controller' => 'App\\Controller\\GameController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        430 => [[['_route' => 'game_show', '_controller' => 'App\\Controller\\GameController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        448 => [[['_route' => 'game_edit', '_controller' => 'App\\Controller\\GameController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        468 => [
+        310 => [[['_route' => 'app_event_register', '_controller' => 'App\\Controller\\EventParticipationController::register'], ['id'], ['POST' => 0], null, false, false, null]],
+        328 => [[['_route' => 'app_event_unregister', '_controller' => 'App\\Controller\\EventParticipationController::unregister'], ['id'], ['POST' => 0], null, false, false, null]],
+        337 => [[['_route' => 'app_event_delete', '_controller' => 'App\\Controller\\EventController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        356 => [[['_route' => 'event_show', '_controller' => 'App\\Controller\\EventController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        374 => [[['_route' => 'event_edit', '_controller' => 'App\\Controller\\EventController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        394 => [[['_route' => 'event_delete', '_controller' => 'App\\Controller\\EventController::delete'], ['id'], ['DELETE' => 0], null, false, false, null]],
+        424 => [[['_route' => 'app_game_show', '_controller' => 'App\\Controller\\GameController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        437 => [[['_route' => 'app_game_edit', '_controller' => 'App\\Controller\\GameController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        445 => [[['_route' => 'app_game_delete', '_controller' => 'App\\Controller\\GameController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        464 => [[['_route' => 'game_show', '_controller' => 'App\\Controller\\GameController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        482 => [[['_route' => 'game_edit', '_controller' => 'App\\Controller\\GameController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        502 => [
             [['_route' => 'game_delete', '_controller' => 'App\\Controller\\GameController::delete'], ['id'], ['DELETE' => 0], null, false, false, null],
             [null, null, null, null, false, false, 0],
         ],
