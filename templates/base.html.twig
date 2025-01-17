@@ -18,6 +18,7 @@
 </head>
 <body>
     {% block navbar %}
+        {% if app.request.attributes.get('_route') not in ['app_login', 'app_register'] and app.user %}
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ path('app_home') }}">
@@ -54,28 +55,22 @@
                             </a>
                         </li>
                     </ul>
-                    {% if app.user %}
-                        <div class="d-flex align-items-center">
-                            <div class="dropdown">
-                                <a href="#" class="dropdown-toggle text-decoration-none" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ app.user.prenom }}
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
-                                </ul>
-                            </div>
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle text-decoration-none" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ app.user.prenom }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                            </ul>
                         </div>
-                    {% else %}
-                        <div class="d-flex">
-                            <a href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Connexion</a>
-                            <a href="{{ path('app_register') }}" class="btn btn-primary">Inscription</a>
-                        </div>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </nav>
+        {% endif %}
     {% endblock %}
 
     {% for type, messages in app.flashes %}

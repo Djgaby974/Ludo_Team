@@ -218,12 +218,9 @@ class EventController extends AbstractController
         $this->addFlash('success', 'Vous avez rejoint l\'événement avec succès !');
         return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
     }
-}
 
-#[Route('/api/events', name: 'app_api_events', methods: ['GET'])]
-class EventApiController extends AbstractController
-{
-    public function apiEvents(EventRepository $eventRepository, SerializerInterface $serializer): JsonResponse
+    #[Route('/api/events', name: 'app_api_events', methods: ['GET'])]
+    public function apiEvents(EventRepository $eventRepository): JsonResponse
     {
         $events = $eventRepository->findAll();
         
