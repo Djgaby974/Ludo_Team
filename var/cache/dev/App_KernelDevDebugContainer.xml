@@ -361,6 +361,14 @@
     <service id="App\Entity" class="App\Entity" abstract="true">
       <tag name="container.excluded" source="in &quot;config/services.yaml&quot;"/>
     </service>
+    <service id="App\Controller\ApiController" class="App\Controller\ApiController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <argument type="service" id="debug.serializer"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.ZyP9f7K.App\Controller\ApiController"/>
+      </call>
+    </service>
     <service id="App\Controller\EventController" class="App\Controller\EventController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -425,7 +433,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.XYu7LL0"/>
+      <argument type="service" id=".service_locator.G1hjPsW"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3372,7 +3380,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.XYu7LL0"/>
+      <argument type="service" id=".service_locator.G1hjPsW"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -7281,6 +7289,9 @@
     <service id="doctrine.fixtures.purger.orm_purger_factory" class="Doctrine\Bundle\FixturesBundle\Purger\ORMPurgerFactory">
       <tag name="doctrine.fixtures.purger_factory" alias="default"/>
     </service>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ApiController" class="App\Controller\ApiController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ApiController" class="App\Controller\ApiController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\ApiController" class="App\Controller\ApiController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\EventController" class="App\Controller\EventController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\EventController" class="App\Controller\EventController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\EventController" class="App\Controller\EventController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -7823,6 +7834,42 @@
         <argument key="eventRepository" type="service_closure" id="App\Repository\EventRepository"/>
       </argument>
     </service>
+    <service id=".service_locator.wxPd78M.App\Controller\ApiController::listEvents()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ApiController::listEvents()"/>
+      <argument>App\Controller\ApiController::listEvents()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.wxPd78M" method="withContext"/>
+    </service>
+    <service id=".service_locator.LvrIxHl" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="gameRepository" type="service_closure" id="App\Repository\GameRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.LvrIxHl.App\Controller\ApiController::listGames()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ApiController::listGames()"/>
+      <argument>App\Controller\ApiController::listGames()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.LvrIxHl" method="withContext"/>
+    </service>
+    <service id=".service_locator.OzEre6h" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.OzEre6h.App\Controller\ApiController::listUsers()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ApiController::listUsers()"/>
+      <argument>App\Controller\ApiController::listUsers()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.OzEre6h" method="withContext"/>
+    </service>
+    <service id=".service_locator.wxPd78M.App\Controller\ApiController::eventDetails()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ApiController::eventDetails()"/>
+      <argument>App\Controller\ApiController::eventDetails()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.wxPd78M" method="withContext"/>
+    </service>
     <service id=".service_locator.wxPd78M.App\Controller\EventController::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\EventController::index()"/>
       <argument>App\Controller\EventController::index()</argument>
@@ -7872,12 +7919,6 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.H64Kpxq" method="withContext"/>
     </service>
-    <service id=".service_locator.LvrIxHl" class="Symfony\Component\DependencyInjection\ServiceLocator">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="gameRepository" type="service_closure" id="App\Repository\GameRepository"/>
-      </argument>
-    </service>
     <service id=".service_locator.LvrIxHl.App\Controller\GameController::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\GameController::index()"/>
       <argument>App\Controller\GameController::index()</argument>
@@ -7921,13 +7962,17 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.n4FJayR" method="withContext"/>
     </service>
-    <service id=".service_locator.XYu7LL0" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.G1hjPsW" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.zHyJIs5.kernel::loadRoutes()"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.zHyJIs5.kernel::loadRoutes()"/>
+        <argument key="App\Controller\ApiController::listEvents" type="service_closure" id=".service_locator.wxPd78M.App\Controller\ApiController::listEvents()"/>
+        <argument key="App\Controller\ApiController::listGames" type="service_closure" id=".service_locator.LvrIxHl.App\Controller\ApiController::listGames()"/>
+        <argument key="App\Controller\ApiController::listUsers" type="service_closure" id=".service_locator.OzEre6h.App\Controller\ApiController::listUsers()"/>
+        <argument key="App\Controller\ApiController::eventDetails" type="service_closure" id=".service_locator.wxPd78M.App\Controller\ApiController::eventDetails()"/>
         <argument key="App\Controller\EventController::index" type="service_closure" id=".service_locator.wxPd78M.App\Controller\EventController::index()"/>
         <argument key="App\Controller\EventController::new" type="service_closure" id=".service_locator.egipcEH.App\Controller\EventController::new()"/>
         <argument key="App\Controller\EventController::show" type="service_closure" id=".service_locator.uOCv2n7.App\Controller\EventController::show()"/>
@@ -7940,6 +7985,10 @@
         <argument key="App\Controller\GameController::delete" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::delete()"/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.zHyJIs5.kernel::loadRoutes()"/>
+        <argument key="App\Controller\ApiController:listEvents" type="service_closure" id=".service_locator.wxPd78M.App\Controller\ApiController::listEvents()"/>
+        <argument key="App\Controller\ApiController:listGames" type="service_closure" id=".service_locator.LvrIxHl.App\Controller\ApiController::listGames()"/>
+        <argument key="App\Controller\ApiController:listUsers" type="service_closure" id=".service_locator.OzEre6h.App\Controller\ApiController::listUsers()"/>
+        <argument key="App\Controller\ApiController:eventDetails" type="service_closure" id=".service_locator.wxPd78M.App\Controller\ApiController::eventDetails()"/>
         <argument key="App\Controller\EventController:index" type="service_closure" id=".service_locator.wxPd78M.App\Controller\EventController::index()"/>
         <argument key="App\Controller\EventController:new" type="service_closure" id=".service_locator.egipcEH.App\Controller\EventController::new()"/>
         <argument key="App\Controller\EventController:show" type="service_closure" id=".service_locator.uOCv2n7.App\Controller\EventController::show()"/>
@@ -8524,6 +8573,12 @@
         <argument key="web_link.http_header_serializer" type="service_closure" id="web_link.http_header_serializer" on-invalid="ignore"/>
       </argument>
     </service>
+    <service id=".service_locator.ZyP9f7K.App\Controller\ApiController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\ApiController"/>
+      <argument>App\Controller\ApiController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.ZyP9f7K" method="withContext"/>
+    </service>
     <service id=".service_locator.ZyP9f7K.App\Controller\EventController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\EventController"/>
       <argument>App\Controller\EventController</argument>
@@ -8721,6 +8776,7 @@
       <call method="allowControllers">
         <argument type="collection">
           <argument>App\Kernel</argument>
+          <argument>App\Controller\ApiController</argument>
           <argument>App\Controller\EventController</argument>
           <argument>App\Controller\GameController</argument>
           <argument>Doctrine\Bundle\DoctrineBundle\Controller\ProfilerController</argument>
@@ -10132,7 +10188,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.pRu6x_4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.XYu7LL0"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.G1hjPsW"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -10177,10 +10233,11 @@
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id=".service_locator.n_ENPtW" alias=".service_locator.zHyJIs5"/>
     <service id=".service_locator.QN8N2X4" alias=".service_locator.wxPd78M"/>
+    <service id=".service_locator.zuqdLVo" alias=".service_locator.LvrIxHl"/>
+    <service id=".service_locator.hNMhKaf" alias=".service_locator.OzEre6h"/>
     <service id=".service_locator.5Vd5JYV" alias=".service_locator.egipcEH"/>
     <service id=".service_locator.rn.xRC3" alias=".service_locator.uOCv2n7"/>
     <service id=".service_locator.QwCMuVU" alias=".service_locator.H64Kpxq"/>
-    <service id=".service_locator.zuqdLVo" alias=".service_locator.LvrIxHl"/>
     <service id=".service_locator.YDwUP9z" alias=".service_locator.NPg3n2e"/>
     <service id=".service_locator.CU.XL48" alias=".service_locator.n4FJayR"/>
     <service id=".service_locator.9nvaCmp" alias=".service_locator.ZyP9f7K"/>
