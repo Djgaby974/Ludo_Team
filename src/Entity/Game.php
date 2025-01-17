@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\GameRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
@@ -21,9 +22,11 @@ class Game
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['game_details', 'event_games'])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups(['game_details'])]
     private ?int $maxParticipants = null;
 
     public function getId(): ?int
