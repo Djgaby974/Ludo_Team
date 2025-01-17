@@ -225,4 +225,12 @@ class Event
 
         return $this;
     }
+
+    public function isParticipant(?User $user): bool
+    {
+        if ($user === null) {
+            return false;
+        }
+        return $this->participants->contains($user);
+    }
 }

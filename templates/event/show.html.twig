@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h4>Informations</h4>
-                            <p><strong>Date :</strong> {{ event.date ? event.date|date('d/m/Y H:i') : 'Non spécifiée' }}</p>
+                            <p><strong>Date :</strong> {{ event.dateEvent ? event.dateEvent|date('d/m/Y H:i') : 'Non spécifiée' }}</p>
                             <p><strong>Lieu :</strong> {{ event.location ?: 'Non spécifié' }}</p>
                         </div>
                         <div class="col-md-6">
@@ -48,13 +48,19 @@
                 <div class="card-footer">
                     {% if app.user %}
                         {% if event.isParticipant(app.user) %}
-                            <button class="btn btn-danger">Se désinscrire</button>
+                            <form action="{{ path('app_event_unregister', {'id': event.id}) }}" method="post" class="d-inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('unregister_event_' ~ event.id) }}">
+                                <button type="submit" class="btn btn-danger">Se désinscrire</button>
+                            </form>
                         {% else %}
-                            <button class="btn btn-success">S'inscrire</button>
+                            <form action="{{ path('app_event_register', {'id': event.id}) }}" method="post" class="d-inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('register_event_' ~ event.id) }}">
+                                <button type="submit" class="btn btn-success">S'inscrire</button>
+                            </form>
                         {% endif %}
                     {% endif %}
 
-                    {% if is_granted('ROLE_ADMIN') or event.organizer == app.user %}
+                    {% if is_granted('ROLE_ADMIN') or event.organisateur == app.user %}
                         <div class="float-end">
                             <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="btn btn-warning">Modifier</a>
                             <a href="{{ path('app_event_delete', {'id': event.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')">Supprimer</a>
