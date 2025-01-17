@@ -49,7 +49,32 @@ class Event
     #[Groups(['event_details'])]
     #[Assert\NotNull(message: "La date de l'événement est obligatoire")]
     #[Assert\GreaterThan('now', message: "La date de l'événement doit être dans le futur")]
+    #[Assert\LessThan('+1 year', message: "La date de l'événement ne peut pas être plus d'un an dans le futur")]
     private ?\DateTimeInterface $dateEvent = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['event_details'])]
+    #[Assert\Length(
+        min: 10, 
+        max: 255, 
+        minMessage: "La description doit contenir au moins {{ limit }} caractères", 
+        maxMessage: "La description ne peut pas dépasser {{ limit }} caractères"
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ0-9\s.,!?()-]+$/',
+        message: "La description contient des caractères non autorisés"
+    )]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['event_details'])]
+    #[Assert\Length(
+        min: 3, 
+        max: 100, 
+        minMessage: "Le lieu doit contenir au moins {{ limit }} caractères", 
+        maxMessage: "Le lieu ne peut pas dépasser {{ limit }} caractères"
+    )]
+    private ?string $lieu = null;
 
     public function __construct()
     {
@@ -130,6 +155,30 @@ class Event
     public function setDateEvent(\DateTimeInterface $dateEvent): static
     {
         $this->dateEvent = $dateEvent;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getLieu(): ?string
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?string $lieu): static
+    {
+        $this->lieu = $lieu;
 
         return $this;
     }

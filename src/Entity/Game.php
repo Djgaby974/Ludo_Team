@@ -6,6 +6,7 @@ use App\Repository\GameRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
@@ -31,7 +32,29 @@ class Game
         minMessage: "Le nom du jeu doit contenir au moins {{ limit }} caractères", 
         maxMessage: "Le nom du jeu ne peut pas dépasser {{ limit }} caractères"
     )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ0-9\s-]+$/',
+        message: "Le nom du jeu contient des caractères non autorisés"
+    )]
     private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['game_details'])]
+    #[Assert\Length(
+        min: 10, 
+        max: 500, 
+        minMessage: "La description du jeu doit contenir au moins {{ limit }} caractères", 
+        maxMessage: "La description du jeu ne peut pas dépasser {{ limit }} caractères"
+    )]
+    private ?string $description = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['game_details'])]
+    #[Assert\Length(
+        max: 1000, 
+        maxMessage: "Les règles ne peuvent pas dépasser {{ limit }} caractères"
+    )]
+    private ?string $rules = null;
 
     #[ORM\Column]
     #[Groups(['game_details'])]
@@ -57,6 +80,30 @@ class Game
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getRules(): ?string
+    {
+        return $this->rules;
+    }
+
+    public function setRules(?string $rules): static
+    {
+        $this->rules = $rules;
 
         return $this;
     }

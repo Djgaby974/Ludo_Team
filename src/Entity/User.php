@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Validator\Constraints as AppAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,10 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank(message: "Le mot de passe est obligatoire")]
-    #[Assert\Length(
-        min: 8, 
-        minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères"
-    )]
+    #[AppAssert\StrongPassword]
     private ?string $password = null;
 
     #[ORM\Column(length: 100, nullable: true)]

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{ user.prenom }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-circle fa-5x mb-3 text-muted"></i>
+                    <h4 class="card-title">{{ user.prenom }}</h4>
+                    <p class="card-text text-muted">{{ user.email }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3>Événements auxquels je participe</h3>
+                </div>
+                <div class="card-body">
+                    {% if participating_events|length > 0 %}
+                        <div class="list-group">
+                            {% for event in participating_events %}
+                                <a href="{{ path('event_show', {'id': event.id}) }}" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ event.dateEvent|date('d/m/Y H:i') }}</h5>
+                                    </div>
+                                    <p class="mb-1">Organisé par {{ event.organisateur.prenom }}</p>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Vous ne participez à aucun événement pour le moment.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Événements que j'organise</h3>
+                </div>
+                <div class="card-body">
+                    {% if organized_events|length > 0 %}
+                        <div class="list-group">
+                            {% for event in organized_events %}
+                                <a href="{{ path('event_show', {'id': event.id}) }}" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ event.dateEvent|date('d/m/Y H:i') }}</h5>
+                                        <small>{{ event.participants|length }} participants</small>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Vous n'avez pas encore organisé d'événements.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

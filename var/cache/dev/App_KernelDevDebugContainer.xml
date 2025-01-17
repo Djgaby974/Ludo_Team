@@ -383,6 +383,13 @@
         <argument type="service" id=".service_locator.ZyP9f7K.App\Controller\GameController"/>
       </call>
     </service>
+    <service id="App\Controller\HomeController" class="App\Controller\HomeController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.ZyP9f7K.App\Controller\HomeController"/>
+      </call>
+    </service>
     <service id="App\Controller\SecurityController" class="App\Controller\SecurityController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -446,7 +453,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.JJG67bD"/>
+      <argument type="service" id=".service_locator.t7CyRWg"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3394,7 +3401,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.JJG67bD"/>
+      <argument type="service" id=".service_locator.t7CyRWg"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -7453,6 +7460,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\GameController" class="App\Controller\GameController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\GameController" class="App\Controller\GameController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\GameController" class="App\Controller\GameController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\SecurityController" class="App\Controller\SecurityController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -8138,6 +8148,19 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.n4FJayR" method="withContext"/>
     </service>
+    <service id=".service_locator.kkA9ATv" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="eventRepository" type="service_closure" id="App\Repository\EventRepository"/>
+        <argument key="gameRepository" type="service_closure" id="App\Repository\GameRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.kkA9ATv.App\Controller\HomeController::index()" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\HomeController::index()"/>
+      <argument>App\Controller\HomeController::index()</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.kkA9ATv" method="withContext"/>
+    </service>
     <service id=".service_locator.3QECKYg" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8163,7 +8186,7 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.5SuUxla" method="withContext"/>
     </service>
-    <service id=".service_locator.JJG67bD" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.t7CyRWg" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
@@ -8184,6 +8207,7 @@
         <argument key="App\Controller\GameController::show" type="service_closure" id=".service_locator.NPg3n2e.App\Controller\GameController::show()"/>
         <argument key="App\Controller\GameController::edit" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::edit()"/>
         <argument key="App\Controller\GameController::delete" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::delete()"/>
+        <argument key="App\Controller\HomeController::index" type="service_closure" id=".service_locator.kkA9ATv.App\Controller\HomeController::index()"/>
         <argument key="App\Controller\SecurityController::login" type="service_closure" id=".service_locator.3QECKYg.App\Controller\SecurityController::login()"/>
         <argument key="App\Controller\SecurityController::register" type="service_closure" id=".service_locator.5SuUxla.App\Controller\SecurityController::register()"/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.zHyJIs5.kernel::registerContainerConfiguration()"/>
@@ -8202,6 +8226,7 @@
         <argument key="App\Controller\GameController:show" type="service_closure" id=".service_locator.NPg3n2e.App\Controller\GameController::show()"/>
         <argument key="App\Controller\GameController:edit" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::edit()"/>
         <argument key="App\Controller\GameController:delete" type="service_closure" id=".service_locator.n4FJayR.App\Controller\GameController::delete()"/>
+        <argument key="App\Controller\HomeController:index" type="service_closure" id=".service_locator.kkA9ATv.App\Controller\HomeController::index()"/>
         <argument key="App\Controller\SecurityController:login" type="service_closure" id=".service_locator.3QECKYg.App\Controller\SecurityController::login()"/>
         <argument key="App\Controller\SecurityController:register" type="service_closure" id=".service_locator.5SuUxla.App\Controller\SecurityController::register()"/>
       </argument>
@@ -8797,6 +8822,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.ZyP9f7K" method="withContext"/>
     </service>
+    <service id=".service_locator.ZyP9f7K.App\Controller\HomeController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\HomeController"/>
+      <argument>App\Controller\HomeController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.ZyP9f7K" method="withContext"/>
+    </service>
     <service id=".service_locator.ZyP9f7K.App\Controller\SecurityController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\SecurityController"/>
       <argument>App\Controller\SecurityController</argument>
@@ -8991,6 +9022,7 @@
           <argument>App\Controller\ApiController</argument>
           <argument>App\Controller\EventController</argument>
           <argument>App\Controller\GameController</argument>
+          <argument>App\Controller\HomeController</argument>
           <argument>App\Controller\SecurityController</argument>
           <argument>Doctrine\Bundle\DoctrineBundle\Controller\ProfilerController</argument>
         </argument>
@@ -10401,7 +10433,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.pRu6x_4" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.JJG67bD"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.t7CyRWg"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.BxSdgVt"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface $requestLogger" alias="monolog.logger.request"/>
@@ -10453,6 +10485,7 @@
     <service id=".service_locator.QwCMuVU" alias=".service_locator.H64Kpxq"/>
     <service id=".service_locator.YDwUP9z" alias=".service_locator.NPg3n2e"/>
     <service id=".service_locator.CU.XL48" alias=".service_locator.n4FJayR"/>
+    <service id=".service_locator.hSHDAZn" alias=".service_locator.kkA9ATv"/>
     <service id=".service_locator.Nrz07Zz" alias=".service_locator.3QECKYg"/>
     <service id=".service_locator.xpyIvFE" alias=".service_locator.5SuUxla"/>
     <service id=".service_locator.9nvaCmp" alias=".service_locator.ZyP9f7K"/>

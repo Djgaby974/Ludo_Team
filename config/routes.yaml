@@ -3,3 +3,109 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+# Routes principales
+app_home:
+    path: /
+    controller: App\Controller\HomeController::index
+
+# Routes d'authentification
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+    methods: GET|POST
+
+app_logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
+app_register:
+    path: /register
+    controller: App\Controller\SecurityController::register
+    methods: GET|POST
+
+# Routes de profil
+app_profile:
+    path: /profile
+    controller: App\Controller\ProfileController::index
+    methods: GET
+
+# Routes pour les événements
+event_index:
+    path: /events
+    controller: App\Controller\EventController::index
+    methods: GET
+
+event_new:
+    path: /events/new
+    controller: App\Controller\EventController::new
+    methods: GET|POST
+
+event_show:
+    path: /events/{id}
+    controller: App\Controller\EventController::show
+    methods: GET
+    requirements:
+        id: '\d+'
+
+event_edit:
+    path: /events/{id}/edit
+    controller: App\Controller\EventController::edit
+    methods: GET|POST
+    requirements:
+        id: '\d+'
+
+event_delete:
+    path: /events/{id}/delete
+    controller: App\Controller\EventController::delete
+    methods: DELETE
+    requirements:
+        id: '\d+'
+
+# Routes pour les jeux
+game_index:
+    path: /games
+    controller: App\Controller\GameController::index
+    methods: GET
+
+game_new:
+    path: /games/new
+    controller: App\Controller\GameController::new
+    methods: GET|POST
+
+game_show:
+    path: /games/{id}
+    controller: App\Controller\GameController::show
+    methods: GET
+    requirements:
+        id: '\d+'
+
+game_edit:
+    path: /games/{id}/edit
+    controller: App\Controller\GameController::edit
+    methods: GET|POST
+    requirements:
+        id: '\d+'
+
+game_delete:
+    path: /games/{id}/delete
+    controller: App\Controller\GameController::delete
+    methods: DELETE
+    requirements:
+        id: '\d+'
+
+# Routes API
+api_events:
+    path: /api/events
+    controller: App\Controller\ApiController::listEvents
+    methods: GET
+
+api_games:
+    path: /api/games
+    controller: App\Controller\ApiController::listGames
+    methods: GET
+
+api_users:
+    path: /api/users
+    controller: App\Controller\ApiController::listUsers
+    methods: GET
