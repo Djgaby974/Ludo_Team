@@ -40,4 +40,13 @@ class GameRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findPopularGames(int $limit = 4): array
+    {
+        return $this->createQueryBuilder('g')
+            ->orderBy('g.maxParticipants', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }
