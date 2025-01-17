@@ -16,7 +16,7 @@ use Doctrine\DBAL\Types\Types;
     'card' => CardGame::class, 
     'duel' => DuelGame::class
 ])]
-class Game
+abstract class Game
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -119,4 +119,7 @@ class Game
 
         return $this;
     }
+
+    // Méthode abstraite pour le type de jeu
+    abstract public function getGameType(): string;
 }

@@ -17,50 +17,61 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="{{ path('app_home') }}">
-                <i class="fas fa-dice"></i> LudoTeam
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_home') }}">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('event_index') }}">Événements</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('game_index') }}">Jeux</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    {% if app.user %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user"></i> {{ app.user.prenom }}
+    {% block navbar %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ path('app_home') }}">
+                    <i class="fas fa-dice"></i> LudoTeam
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_home') }}">
+                                <i class="fas fa-home me-1"></i>Accueil
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
-                            </ul>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_event_index') }}">
+                                <i class="fas fa-calendar-alt me-1"></i>Événements
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_game_index') }}">
+                                <i class="fas fa-gamepad me-1"></i>Jeux
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_search_events') }}">
+                                <i class="fas fa-search me-1"></i>Rechercher des événements
+                            </a>
+                        </li>
+                    </ul>
+                    {% if app.user %}
+                        <div class="d-flex align-items-center">
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle text-decoration-none" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ app.user.prenom }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="{{ path('app_profile') }}">Mon profil</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-primary text-white" href="{{ path('app_register') }}">Inscription</a>
-                        </li>
+                        <div class="d-flex">
+                            <a href="{{ path('app_login') }}" class="btn btn-outline-primary me-2">Connexion</a>
+                            <a href="{{ path('app_register') }}" class="btn btn-primary">Inscription</a>
+                        </div>
                     {% endif %}
-                </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    {% endblock %}
 
     {% for type, messages in app.flashes %}
         <div class="container mt-3">

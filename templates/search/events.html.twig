@@ -1,0 +1,205 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche d'événements{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .search-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .search-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .event-card {
+            transition: all 0.3s ease;
+            border-left: 5px solid #007bff;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .game-badge {
+            background-color: #6c757d;
+            color: white;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+        .game-checkboxes {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 15px;
+            background-color: #f8f9fa;
+        }
+        .game-checkboxes .form-check {
+            margin-bottom: 10px;
+        }
+        .game-checkboxes .form-check-input {
+            margin-right: 10px;
+        }
+        .search-form .form-floating {
+            margin-bottom: 1rem;
+        }
+        .search-form .form-label {
+            margin-bottom: 0.75rem;
+        }
+        .search-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .search-btn .fas {
+            font-size: 1.1rem;
+        }
+        .form-check-input:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid search-container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="search-form">
+                {{ form_start(form, {'attr': {'class': 'row g-4'}}) }}
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            {{ form_widget(form.dateFrom, {'attr': {'class': 'form-control', 'placeholder': 'Date de début'}}) }}
+                            {{ form_label(form.dateFrom, 'Date de début') }}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            {{ form_widget(form.dateTo, {'attr': {'class': 'form-control', 'placeholder': 'Date de fin'}}) }}
+                            {{ form_label(form.dateTo, 'Date de fin') }}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            {{ form_widget(form.gameType, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_label(form.gameType, 'Type de jeu') }}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            {{ form_widget(form.minParticipants, {'attr': {'class': 'form-control', 'placeholder': 'Min. participants'}}) }}
+                            {{ form_label(form.minParticipants, 'Min. participants') }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ form_widget(form.gameName, {'attr': {'class': 'form-control', 'placeholder': 'Rechercher un jeu'}}) }}
+                            {{ form_label(form.gameName, 'Nom du jeu') }}
+                        </div>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <label class="form-label">Jeux disponibles</label>
+                        <div class="game-checkboxes">
+                            <div class="row">
+                                {% for game in form.games %}
+                                    <div class="col-md-3 col-sm-4 col-6">
+                                        {{ form_row(game, {
+                                            'label_attr': {'class': 'form-check-label'},
+                                            'attr': {'class': 'form-check-input'}
+                                        }) }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mt-4">
+                        <button type="submit" class="btn btn-primary search-btn">
+                            <i class="fas fa-search"></i>
+                            <span>Rechercher des événements</span>
+                        </button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+
+            {% if events is not empty %}
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h2 class="mb-4 text-center">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            {{ events|length }} événement(s) trouvé(s)
+                        </h2>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            {% for event in events %}
+                                <div class="col">
+                                    <div class="card event-card h-100">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <i class="fas fa-gamepad me-2 text-primary"></i>
+                                                {{ event.name }}
+                                            </h5>
+                                            <p class="card-text">
+                                                <strong><i class="fas fa-calendar me-2 text-success"></i>Date :</strong> 
+                                                {{ event.dateEvent|date('d/m/Y H:i') }}<br>
+                                                <strong><i class="fas fa-map-marker-alt me-2 text-danger"></i>Lieu :</strong> 
+                                                {{ event.location }}<br>
+                                                <strong><i class="fas fa-users me-2 text-info"></i>Participants :</strong> 
+                                                {{ event.participants|length }}/{{ event.maxParticipants }}
+                                            </p>
+                                            <div class="mt-3">
+                                                <strong>Jeux :</strong>
+                                                {% for game in event.games %}
+                                                    <span class="badge game-badge">
+                                                        {{ game.name }} ({{ game.getGameType() }})
+                                                    </span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center mt-4" role="alert">
+                    <i class="fas fa-search-minus fa-3x mb-3"></i>
+                    <h4>Aucun événement ne correspond à vos critères de recherche</h4>
+                    <p>Essayez de modifier vos filtres ou élargir votre recherche</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Ajouter des paramètres de recherche à l'URL
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                window.location.href = "{{ path('app_search_events') }}?" + formData;
+            });
+        });
+    </script>
+{% endblock %}
