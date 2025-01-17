@@ -73,16 +73,6 @@ class Event
     )]
     private ?string $location = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['event_details'])]
-    #[Assert\Length(
-        min: 3, 
-        max: 100, 
-        minMessage: "Le lieu doit contenir au moins {{ limit }} caractères", 
-        maxMessage: "Le lieu ne peut pas dépasser {{ limit }} caractères"
-    )]
-    private ?string $lieu = null;
-
     #[ORM\Column(length: 255)]
     #[Groups(['event_details'])]
     #[Assert\NotBlank(message: "Le nom de l'événement est obligatoire")]
@@ -93,6 +83,17 @@ class Event
         maxMessage: "Le nom de l'événement ne peut pas dépasser {{ limit }} caractères"
     )]
     private ?string $name = null;
+
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Groups(['event_details'])]
+    #[Assert\NotBlank(message: "Le nombre maximum de participants est obligatoire")]
+    #[Assert\Range(
+        min: 2, 
+        max: 20, 
+        minMessage: "Un événement doit avoir au moins {{ limit }} participants", 
+        maxMessage: "Un événement ne peut pas avoir plus de {{ limit }} participants"
+    )]
+    private ?int $maxParticipants = null;
 
     public function __construct()
     {
@@ -201,13 +202,6 @@ class Event
         return $this;
     }
 
-    public function setLieu(?string $lieu): static
-    {
-        $this->lieu = $lieu;
-
-        return $this;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -216,6 +210,18 @@ class Event
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getMaxParticipants(): ?int
+    {
+        return $this->maxParticipants;
+    }
+
+    public function setMaxParticipants(int $maxParticipants): static
+    {
+        $this->maxParticipants = $maxParticipants;
 
         return $this;
     }

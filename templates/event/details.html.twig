@@ -17,7 +17,7 @@
                             <p><strong>Lieu :</strong> {{ event.location }}</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Organisateur :</strong> {{ event.organizer.username }}</p>
+                            <p><strong>Organisateur :</strong> {{ event.organisateur.username }}</p>
                             <p><strong>Nombre max de participants :</strong> {{ event.maxParticipants }}</p>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="card-footer">
                     <a href="{{ path('app_event_index') }}" class="btn btn-secondary">Retour à la liste</a>
-                    {% if app.user and app.user == event.organizer %}
+                    {% if app.user and app.user == event.organisateur %}
                         <a href="{{ path('app_event_edit', {'id': event.id}) }}" class="btn btn-warning">Modifier</a>
                     {% endif %}
                 </div>
