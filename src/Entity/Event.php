@@ -201,11 +201,6 @@ class Event
         return $this;
     }
 
-    public function getLieu(): ?string
-    {
-        return $this->lieu;
-    }
-
     public function setLieu(?string $lieu): static
     {
         $this->lieu = $lieu;

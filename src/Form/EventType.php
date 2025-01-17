@@ -29,6 +29,12 @@ class EventType extends AbstractType
                 'widget' => 'single_text',
                 'required' => true
             ])
+            ->add('location', TextType::class, [
+                'label' => 'Lieu de l\'événement',
+                'attr' => [
+                    'placeholder' => 'Entrez le lieu de votre événement'
+                ]
+            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description de l\'événement',
                 'attr' => [
