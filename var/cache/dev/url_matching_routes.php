@@ -30,6 +30,7 @@ return [
         ],
         '/event' => [[['_route' => 'app_event_index', '_controller' => 'App\\Controller\\EventController::index'], null, ['GET' => 0], null, true, false, null]],
         '/event/new' => [[['_route' => 'app_event_new', '_controller' => 'App\\Controller\\EventController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/event/api/events' => [[['_route' => 'app_api_events', '_controller' => 'App\\Controller\\EventController::apiEvents'], null, ['GET' => 0], null, false, false, null]],
         '/game' => [[['_route' => 'app_game_index', '_controller' => 'App\\Controller\\GameController::index'], null, ['GET' => 0], null, true, false, null]],
         '/game/new' => [[['_route' => 'app_game_new', '_controller' => 'App\\Controller\\GameController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/search/events' => [[['_route' => 'app_search_events', '_controller' => 'App\\Controller\\SearchController::searchEvents'], null, null, null, false, false, null]],
